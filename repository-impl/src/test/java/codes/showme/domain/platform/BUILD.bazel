@@ -1,0 +1,21 @@
+
+
+
+java_test(
+    name = "ServiceRepositoryImplTest",
+    size = "medium",
+    srcs=["ServiceRepositoryImplTest.java"],
+    test_class = "codes.showme.domain.platform.ServiceRepositoryImplTest",
+    jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    deps = [
+        "//repository-impl/src/main/java/codes/showme/domain/platform:TicketRepositoryImpl",
+        "//core/src/main/java/codes/showme/domain/platform:platform",
+        "//core/src/main/java/codes/showme/domain/platform/scheduledaction:scheduledaction",
+        "//repository-impl/src/test/java/codes/showme/domain:abstractIntegrationTest",
+        "//repository-impl/src/main/java/codes/showme/domain/platform:ServiceRepositoryImpl",
+        "//tech-lib:ioc",
+        "//third_party:unittest",
+        "//third_party:db_migration",
+        "@maven//:io_ebean_ebean_agent",
+    ],
+)

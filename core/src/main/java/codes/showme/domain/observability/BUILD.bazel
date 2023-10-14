@@ -1,0 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "runbook",
+    srcs = [
+        "Runbook.java",
+            "repository/RunbookRepository.java"
+            ],
+    deps = [
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "//tech-lib:ioc-instance-factory",
+    ],
+)
+

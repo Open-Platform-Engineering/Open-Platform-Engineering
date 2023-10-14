@@ -1,0 +1,19 @@
+
+java_test(
+    name = "ScheduleIntegrationTest",
+    size = "medium",
+    srcs=["ScheduleIntegrationTest.java"],
+    test_class = "codes.showme.domain.schedule.ScheduleIntegrationTest",
+    jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    deps = [
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//repository-impl/src/main/java/codes/showme/domain/schedule:ScheduleRuleRepositoryImpl",
+        "//tech-lib:ioc",
+        "//tech-lib:pagination",
+        "//repository-impl/src/test/java/codes/showme/domain:abstractIntegrationTest",
+        "//third_party:unittest",
+        "@maven//:io_ebean_ebean_agent",
+        "//third_party:db_migration",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    ],
+)

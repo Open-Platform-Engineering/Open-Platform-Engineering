@@ -1,0 +1,70 @@
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_swc//swc:defs.bzl", "swc")
+load("@aspect_rules_webpack//webpack:defs.bzl", "webpack_bundle", "webpack_devserver")
+
+npm_link_all_packages(name = "node_modules")
+
+
+exports_files(
+      [".swcrc"],
+      visibility = ["//web-ui:__subpackages__"],
+)
+
+swc(
+    name = "transpile",
+    srcs = glob(["src/**/*.jsx", "src/components/**/*.jsx", "src/pages/**/*.jsx", "src/routes/**/*.jsx"]),
+    swcrc = ":.swcrc",
+    visibility = ["//visibility:public"],
+)
+
+
+
+STATIC_ASSETS = ["public/**", "src/**/*.css"]
+
+lib_deps = [
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/tailwindcss",
+        ":node_modules/tailwind-merge",
+        "//:node_modules/@floating-ui/react",
+        "//:node_modules/@material-tailwind/react",
+        "//:node_modules/@floating-ui/dom",
+        ":node_modules/postcss-loader",
+        ":node_modules/postcss",
+        ":node_modules/mini-css-extract-plugin",
+        "//:node_modules/autoprefixer",
+        ":node_modules/html-webpack-plugin",
+        ":node_modules/css-loader",
+        ":node_modules/style-loader",
+        ":node_modules/react-router-dom",
+        ":node_modules/react-hook-form",
+        ":node_modules/file-loader",
+        ":node_modules/swc-loader",
+        ":node_modules/@heroicons/react",
+        ":node_modules/@headlessui/react",
+        ":node_modules/crypto-js",
+        ":node_modules/amazon-cognito-identity-js",
+
+    ]
+
+webpack_bundle(
+    name = "bundle",
+    chdir = package_name(),
+    srcs = [":transpile", ] + glob(STATIC_ASSETS) + ["package.json", "tailwind.config.js", "postcss.config.js"],
+    node_modules = ":node_modules",
+    output_dir = True,
+    entry_point = "//web-ui:src/index.js",
+    webpack_config = ":webpack.bazel.config.js",
+    deps = lib_deps,
+)
+
+webpack_devserver(
+    name = "dev_server",
+    chdir = package_name(),
+    data = [":transpile"] + glob(STATIC_ASSETS) + lib_deps + ["package.json", "tailwind.config.js", "postcss.config.js"],
+    entry_point = "//web-ui:src/index.js",
+    node_modules = ":node_modules",
+    webpack_config = ":webpack.bazel.config.js",
+)
+

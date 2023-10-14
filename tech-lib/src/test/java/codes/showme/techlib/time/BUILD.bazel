@@ -1,0 +1,9 @@
+java_test(
+    name = "TimeRangeHelperTest",
+    srcs = ["TimeRangeHelperTest.java"],
+    deps = [
+        "//tech-lib:time",
+        "//third_party:unittest",
+        "@maven//:com_google_guava_guava",
+    ],
+)

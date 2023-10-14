@@ -1,0 +1,22 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "escalation",
+    srcs = glob([
+        "*.java",
+     ]),
+    deps = [
+        "//third_party:domain",
+        "//tech-lib:pagination",
+        "//core/src/main/java/codes/showme/domain/tenant:tenant"
+    ],
+)
+
+java_library(
+    name = "EscalationTarget",
+    srcs = ["EscalationTarget.java","EscalationScheduleTarget.java","EscalationUserTarget.java"],
+    deps = [
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_google_guava_guava",
+    ],
+)

@@ -1,0 +1,5 @@
+packages:
+  - "web-ui/**"
+  - "environments/dev/npm/**"
+  - "environments/test/npm/**"
+  - "environments/prod/npm/**"

@@ -1,0 +1,6 @@
+
+filegroup(
+    name = "ebean_spi",
+    srcs = ["io.ebeaninternal.api.SpiDdlGeneratorProvider","io.ebean.dbmigration.DbMigration" ],
+    visibility = ["//visibility:public"],
+)

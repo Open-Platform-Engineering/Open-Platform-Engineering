@@ -1,0 +1,139 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "ScheduleTestHelper",
+    srcs = ["ScheduleTestHelper.java"],
+    deps = [
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+
+    ],
+)
+
+java_test(
+    name = "WeeklyRotationTest",
+    size = "small",
+    srcs=["WeeklyRotationTest.java"],
+    test_class = "codes.showme.domain.schedule.WeeklyRotationTest",
+    deps = [
+        "//core/src/test/java/codes/showme/domain/schedule:ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+java_test(
+    name = "DailyRotationTypeTest",
+    size = "small",
+    srcs=["DailyRotationTypeTest.java"],
+    test_class = "codes.showme.domain.schedule.DailyRotationTypeTest",
+    deps = [
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        ":ScheduleTestHelper",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+
+
+java_test(
+    name = "ScheduleLayerTest",
+    size = "small",
+    srcs=["ScheduleLayerTest.java"],
+    test_class = "codes.showme.domain.schedule.ScheduleLayerTest",
+    deps = [
+        ":ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+java_test(
+    name = "CustomRotationTest",
+    size = "small",
+    srcs=["CustomRotationTest.java"],
+    test_class = "codes.showme.domain.schedule.CustomRotationTest",
+    deps = [
+        ":ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+
+java_test(
+    name = "GuavaRangeTest",
+    size = "small",
+    srcs=["GuavaRangeTest.java"],
+    test_class = "codes.showme.domain.schedule.GuavaRangeTest",
+    deps = [
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+
+java_test(
+    name = "ScheduleTest",
+    size = "small",
+    srcs=["ScheduleTest.java"],
+    test_class = "codes.showme.domain.schedule.ScheduleTest",
+    deps = [
+        ":ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+java_test(
+    name = "DailyRestrictionTest",
+    size = "small",
+    srcs=["DailyRestrictionTest.java"],
+    test_class = "codes.showme.domain.schedule.DailyRestrictionTest",
+    deps = [
+        ":ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+java_test(
+    name = "WeeklyRestrictionTest",
+    size = "small",
+    srcs=["WeeklyRestrictionTest.java"],
+    test_class = "codes.showme.domain.schedule.WeeklyRestrictionTest",
+    deps = [
+        ":ScheduleTestHelper",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+        "@maven//:com_google_guava_guava",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)

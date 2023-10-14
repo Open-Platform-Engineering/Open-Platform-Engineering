@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "abstractIntegrationTest",
+    srcs = ["AbstractIntegrationTest.java"],
+    deps = [
+        "//tech-lib:ioc-instance-factory",
+        "//tech-lib:ioc-instance-provider",
+        "@maven//:org_mockito_mockito_core"
+    ],
+)

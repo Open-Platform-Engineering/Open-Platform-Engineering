@@ -1,0 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "utcDateFormat",
+    srcs = ["UtcDateFormat.java"],
+    deps = [],
+)
+
+#filegroup(
+#  name = "allDomain",
+#  srcs = subpackages(include = ["//core/src/main/java/codes/showme/domain/..."])
+#)
+

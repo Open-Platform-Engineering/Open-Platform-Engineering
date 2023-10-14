@@ -1,0 +1,10 @@
+java_test(
+    name = "serviceTests",
+    size = "small",
+    srcs=["ServiceTest.java"],
+    test_class = "codes.showme.domain.observability.platform.ServiceTest",
+    deps = [
+        "//third_party:unittest",
+        "//core/src/main/java/codes/showme/domain/platform:platform",
+    ],
+)

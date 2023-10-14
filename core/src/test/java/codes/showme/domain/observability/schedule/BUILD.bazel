@@ -1,0 +1,9 @@
+java_test(
+    name = "scheduleRuleTest",
+    size = "small",
+    srcs=["ScheduleRuleTest.java"],
+    test_class = "codes.showme.domain.observability.schedule.ScheduleRuleTest",
+    deps = [
+        "//third_party:unittest",
+    ],
+)

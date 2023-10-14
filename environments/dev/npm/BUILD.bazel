@@ -1,0 +1,17 @@
+package(default_visibility = ["//visibility:public"])
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_to_json")
+
+
+npm_package(
+    name = "npm",
+    srcs = [
+        "package.json",
+        "//environments/dev:aws"
+        
+    ],
+    data =["//environments/dev:aws"],
+    visibility = ["//visibility:public"],
+)

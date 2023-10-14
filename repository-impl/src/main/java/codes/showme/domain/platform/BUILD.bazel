@@ -1,0 +1,20 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "ServiceRepositoryImpl",
+    srcs = ["ServiceRepositoryImpl.java"],
+    deps = [
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//core/src/main/java/codes/showme/domain/platform:platform",
+    ],
+)
+java_library(
+    name = "TicketRepositoryImpl",
+    srcs = ["TicketRepositoryImpl.java"],
+    deps = [
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//core/src/main/java/codes/showme/domain/platform:platform",
+    ],
+)

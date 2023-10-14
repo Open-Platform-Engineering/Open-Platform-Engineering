@@ -1,0 +1,11 @@
+
+java_test(
+    name = "PageRequestTest",
+    size = "small",
+    srcs=["PageRequestTest.java"],
+    test_class = "codes.showme.techlib.pagination.PageRequestTest",
+    deps = [
+        "//tech-lib:pagination",
+        "//third_party:unittest",
+    ],
+)

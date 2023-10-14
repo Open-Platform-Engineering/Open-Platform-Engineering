@@ -1,0 +1,21 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "notification",
+    srcs = glob([
+        "*.java",
+     ]),
+    deps = [
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "@maven//:org_hibernate_orm_hibernate_core",
+        "//tech-lib:ioc-instance-factory",
+    ],
+)
+
+java_library(
+    name = "notifiedUser",
+    srcs = ["NotifiedUser.java", "NotifiedUserExample.java"],
+    deps = [
+
+    ],
+)

@@ -1,0 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "platform",
+    srcs = glob([
+        "*.java",
+     ]),
+    deps = [
+        "//core/src/main/java/codes/showme/domain/platform/scheduledaction:scheduledaction",
+        "//third_party:domain",
+        "//tech-lib:observation",
+        "//core/src/main/java/codes/showme/domain/tenant:tenant"
+    ],
+)

@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "scheduledaction",
+    srcs = glob([
+        "*.java",
+     ]),
+    deps = [
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations"
+    ],
+)

@@ -1,0 +1,13 @@
+.git
+node_modules
+dist
+web-ui/node_modules
+environments/dev/npm/node_modules
+environments/prod/npm/node_modules
+environments/test/npm/node_modules
+environments/dev/node_modules
+environments/prod/node_modules
+environments/test/node_modules
+web-ui/node_modules
+web-ui/src/node_modules
+

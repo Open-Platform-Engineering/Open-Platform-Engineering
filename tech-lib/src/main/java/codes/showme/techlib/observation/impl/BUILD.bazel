@@ -1,0 +1,9 @@
+java_library(
+    name = "micrometer_observation",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//tech-lib:ioc",
+        "//third_party:observation",
+        "//tech-lib:observation",
+    ],
+)

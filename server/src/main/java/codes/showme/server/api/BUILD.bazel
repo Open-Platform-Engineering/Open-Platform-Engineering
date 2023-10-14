@@ -1,0 +1,9 @@
+java_library(
+    name = "event2_request",
+    srcs = ["Payload.java", "Severity.java", "ImageContext.java", "LinkContext.java", "EventAction.java"],
+    deps = [
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_google_guava_guava",
+    ],
+)

@@ -1,0 +1,4 @@
+{
+  "name": "@bazel-fuvos/aws-prod-env",
+  "main": "aws.json"
+}

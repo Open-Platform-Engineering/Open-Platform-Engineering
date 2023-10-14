@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: codes-planet
+  main:
+    banner-mode: "off"
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    prefix: classpath:/templates/pages/
+    content-type: text/html
+    encoding: UTF-8
+    suffix: .html
+    check-template-location: true
+logging:
+  level:
+    root: info
+    io.ebean: debug
+grpc:
+  port: 9090
+
+server:
+  port: 8080
+
+
+management:
+  server:
+    port: 30000
+  endpoint:
+    shutdown:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    shutdown:
+      enabled: true
+    web:
+      base-path: /monitor
+      exposure:
+        exclude: env,beans
+        include: health,prometheus,loggers,shutdown
+  metrics:
+    tags:
+      application: ${spring.application.name}

@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "ScheduleRuleRepositoryImpl",
+    srcs = ["ScheduleRuleRepositoryImpl.java"],
+    deps = [
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//core/src/main/java/codes/showme/domain/schedule:schedule"
+    ],
+)

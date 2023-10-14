@@ -1,0 +1,8 @@
+filegroup(
+    name = "server-resources",
+    srcs = glob([
+        "application.yml",
+
+    ]),
+    visibility = ["//visibility:public"],
+)

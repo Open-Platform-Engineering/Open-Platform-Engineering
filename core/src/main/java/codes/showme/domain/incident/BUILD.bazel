@@ -1,0 +1,21 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "incident",
+    srcs = glob([
+        "*.java",
+     ]),
+    deps = [
+#        "@maven//:io_ebean_ebean_api",
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "//tech-lib:ioc-instance-factory",
+        "//core/src/main/java/codes/showme/domain/team:team",
+    ],
+)
+#
+#ebean_enhance(
+#    name = "incident_ebean_enhanced",
+#    entity_lib = ":incident",
+#    packages = ["codes.showme.domain"],
+#
+#)

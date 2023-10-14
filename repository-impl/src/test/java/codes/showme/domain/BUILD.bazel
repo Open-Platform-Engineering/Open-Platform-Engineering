@@ -1,0 +1,32 @@
+
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "abstractIntegrationTest",
+    srcs = ["AbstractIntegrationTest.java"],
+    testonly = True,
+    resources = ["//repository-impl/src/main/sql/domain:migrations", "//repository-impl/src/main/sql/domain/model:migrations"],
+    deps = [
+        "//repository-impl/src/main/java/codes/showme/domain/incident:IncidentRepositoryImpl",
+        "//core/src/main/java/codes/showme/domain/incident:incident",
+        "//core/src/main/java/codes/showme/domain/platform:platform",
+        "//repository-impl/src/main/java/codes/showme/domain/platform:ServiceRepositoryImpl",
+        "//repository-impl/src/main/java/codes/showme/domain/platform:TicketRepositoryImpl",
+
+        "//tech-lib:ioc",
+        "//third_party:unittest",
+        "//third_party:repository",
+        "//third_party:db_migration",
+
+        "@maven//:ch_qos_logback_logback_classic",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
+
+
+        "//third_party:test_container"
+
+
+    ],
+)
+

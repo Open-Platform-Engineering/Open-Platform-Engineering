@@ -1,0 +1,46 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "time",
+    srcs = ["src/main/java/codes/showme/techlib/time/TimeRangeHelper.java"],
+    deps = [
+        "@maven//:com_google_guava_guava"
+    ],
+)
+
+java_library(
+    name = "observation",
+    srcs = glob(["src/main/java/codes/showme/techlib/observation/*.java"]),
+    deps = [
+        "//third_party:observation",
+    ],
+)
+
+java_library(
+    name = "ioc-instance-factory",
+    srcs = ["src/main/java/codes/showme/techlib/ioc/InstanceFactory.java"],
+    deps = [
+        ":ioc-instance-provider"
+    ],
+)
+
+java_library(
+    name = "ioc-instance-provider",
+    srcs = ["src/main/java/codes/showme/techlib/ioc/InstanceProvider.java",
+            "src/main/java/codes/showme/techlib/ioc/IocInstanceNotUniqueException.java",
+            "src/main/java/codes/showme/techlib/ioc/IocException.java"],
+)
+
+java_library(
+    name = "pagination",
+    srcs = [
+        "src/main/java/codes/showme/techlib/pagination/Pagination.java",
+        "src/main/java/codes/showme/techlib/pagination/PageRequest.java",
+    ]
+)
+
+
+java_library(
+    name = "ioc",
+    exports = [":ioc-instance-provider",":ioc-instance-factory"],
+)

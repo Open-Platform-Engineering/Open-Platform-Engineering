@@ -1,0 +1,34 @@
+java_library(
+    name = "IncidentAcknowledgeEventMock",
+    srcs = ["IncidentAcknowledgeEventMock.java"],
+    deps = ["//core/src/main/java/codes/showme/domain/incident:incident"],
+)
+
+java_library(
+    name = "IncidentRepositoryMock",
+    srcs = ["IncidentRepositoryMock.java"],
+    deps = ["//core/src/main/java/codes/showme/domain/incident:incident"],
+)
+
+java_library(
+    name = "IncidentResolveEventMock",
+    srcs = ["IncidentResolveEventMock.java"],
+    deps = ["//core/src/main/java/codes/showme/domain/incident:incident"],
+)
+
+java_test(
+    name = "incidentTests",
+    size = "small",
+    srcs=["IncidentTest.java"],
+    test_class = "codes.showme.domain.observability.incident.IncidentTest",
+    deps = [
+        "//core/src/main/java/codes/showme/domain/incident:incident",
+        "//third_party:unittest",
+        "//core/src/test/java/codes/showme/domain/observability:abstractIntegrationTest",
+        "@maven//:org_mockito_mockito_core",
+        ":IncidentResolveEventMock",
+        ":IncidentAcknowledgeEventMock",
+        ":IncidentRepositoryMock",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)

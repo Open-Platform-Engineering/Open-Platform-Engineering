@@ -1,0 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "team",
+    srcs = glob([
+        "Reassignable.java",
+     ]),
+    deps = [
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "@maven//:org_hibernate_orm_hibernate_core",
+        "//tech-lib:ioc-instance-factory",
+    ],
+)

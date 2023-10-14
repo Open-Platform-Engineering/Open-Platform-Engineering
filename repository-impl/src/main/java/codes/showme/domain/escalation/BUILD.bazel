@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "EscalationPolicyRepositoryImpl",
+    srcs = ["EscalationPolicyRepositoryImpl.java"],
+    deps = [
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//tech-lib:pagination",
+        "//core/src/main/java/codes/showme/domain/escalation:escalation",
+    ],
+)

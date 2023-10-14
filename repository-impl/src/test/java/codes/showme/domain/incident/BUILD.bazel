@@ -1,0 +1,19 @@
+
+
+
+java_test(
+    name = "IncidentRepositoryTest",
+    size = "medium",
+    srcs=["IncidentRepositoryTest.java"],
+    test_class = "codes.showme.domain.incident.IncidentRepositoryTest",
+    jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    deps = [
+        "//core/src/main/java/codes/showme/domain/incident:incident",
+        "//repository-impl/src/main/java/codes/showme/domain/incident:IncidentRepositoryImpl",
+        "//tech-lib:ioc",
+        "//repository-impl/src/test/java/codes/showme/domain:abstractIntegrationTest",
+        "//third_party:unittest",
+        "@maven//:io_ebean_ebean_agent",
+        "//third_party:db_migration"
+    ],
+)

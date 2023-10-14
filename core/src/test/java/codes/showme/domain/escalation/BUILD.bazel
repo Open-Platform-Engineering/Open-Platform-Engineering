@@ -1,0 +1,25 @@
+
+java_test(
+    name = "EscalationPolicyTest",
+    size = "small",
+    srcs=["EscalationPolicyTest.java"],
+    test_class = "codes.showme.domain.escalation.EscalationPolicyTest",
+    deps = [
+        "//core/src/main/java/codes/showme/domain/escalation:escalation",
+        "//third_party:unittest",
+        "@maven//:org_mockito_mockito_core",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)
+
+java_test(
+    name = "EscalationRuleTest",
+    size = "small",
+    srcs=["EscalationRuleTest.java"],
+    test_class = "codes.showme.domain.escalation.EscalationRuleTest",
+    deps = [
+        "//core/src/main/java/codes/showme/domain/escalation:escalation",
+        "//third_party:unittest",
+        "//tech-lib:ioc-instance-provider",
+    ],
+)

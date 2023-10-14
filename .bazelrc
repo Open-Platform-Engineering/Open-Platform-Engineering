@@ -1,0 +1,20 @@
+build --java_language_version=17 --java_runtime_version=17 --tool_java_language_version=17 --tool_java_runtime_version=17
+build --nojava_header_compilation
+# passes an argument `--skipLibCheck` to *every* spawn of tsc
+build --@aspect_rules_ts//ts:skipLibCheck=always
+
+# honor the setting of `skipLibCheck` in the tsconfig.json file
+build --@aspect_rules_ts//ts:skipLibCheck=honor_tsconfig
+
+test --nojava_header_compilation
+test  --java_language_version=17 --java_runtime_version=17 --tool_java_language_version=17 --tool_java_runtime_version=17
+
+# Speed up all builds by not checking if external repository files have been modified.
+# Docs: https://github.com/bazelbuild/bazel/blob/1af61b21df99edc2fc66939cdf14449c2661f873/src/main/java/com/google/devtools/build/lib/bazel/repository/RepositoryOptions.java#L244
+build --noexperimental_check_external_repository_files
+fetch --noexperimental_check_external_repository_files
+query --noexperimental_check_external_repository_files
+
+# Avoid this flag being enabled by remote_download_minimal or remote_download_toplevel
+# See https://meroton.com/blog/bazel-6-errors-build-without-the-bytes/
+build --noexperimental_action_cache_store_output_metadata

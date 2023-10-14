@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "schedule",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//core/src/main/java/codes/showme/domain/team:team",
+        "//core/src/main/java/codes/showme/domain:utcDateFormat",
+        "//third_party:domain",
+        "//tech-lib:time",
+        "//tech-lib:pagination",
+        "//core/src/main/java/codes/showme/domain/tenant:tenant",
+        "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
+    ],
+)

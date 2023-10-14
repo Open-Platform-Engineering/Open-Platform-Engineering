@@ -1,0 +1,10 @@
+package(default_visibility = ["//visibility:public"])
+java_library(
+    name = "ioc-instance-provider-spring-impl",
+    srcs = glob(["src/main/java/codes/showme/techlib/ioc/springimpl/*.java"]),
+    deps = [
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_beans",
+        "//tech-lib:ioc-instance-provider"
+    ],
+)

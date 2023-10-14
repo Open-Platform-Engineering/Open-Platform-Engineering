@@ -1,0 +1,18 @@
+load("@io_bazel_rules_jsonnet//jsonnet:jsonnet.bzl", "jsonnet_to_json")
+package(default_visibility = ["//visibility:public"])
+
+
+filegroup(
+    name = "persistence",
+    srcs = glob(["persistence.xml"]),
+    visibility = ["//visibility:public"],
+)
+
+
+jsonnet_to_json(
+    name = "persistence_jsonnet",
+    src = "persistence.xml.jsonnet",
+    extra_args = ["-S"],
+    outs = ["persistence_new.xml"],
+    deps = ["//tools/jsonnet:xml"],
+)

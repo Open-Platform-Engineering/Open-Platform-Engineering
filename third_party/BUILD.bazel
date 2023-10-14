@@ -1,0 +1,81 @@
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+
+java_library(
+	name = "unittest",
+	exports = [
+		"@maven//:junit_junit",
+		"@maven//:org_hamcrest_hamcrest_core","@maven//:org_mockito_mockito_core"
+	]
+)
+
+
+
+java_library(
+	name = "repository",
+	exports = [
+        "@maven//:javax_annotation_javax_annotation_api",
+        "@maven//:io_ebean_ebean_api",
+        "@maven//:com_zaxxer_HikariCP",
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "@maven//:org_springframework_spring_context",
+	]
+)
+
+java_library(
+    name = "db_migration",
+    exports = [
+        "@maven//:com_zaxxer_HikariCP",
+        "@maven//:io_ebean_ebean_migration",
+        "@maven//:io_ebean_ebean_ddl_generator",
+        "@maven//:io_ebean_ebean_api",
+        "@maven//:io_ebean_ebean_datasource",
+        "@maven//:io_ebean_ebean_core",
+        "@maven//:io_ebean_ebean_platform_all",
+        "@maven//:io_ebean_ebean_platform_postgres",
+        "@maven//:io_ebean_ebean_jackson_mapper",
+    ],
+)
+
+java_library(
+    name = "test_container",
+    exports = [
+        "@maven//:org_postgresql_postgresql",
+        "@maven//:org_testcontainers_postgresql",
+        "@maven//:org_testcontainers_testcontainers",
+    ],
+)
+
+
+java_library(
+    name = "observation",
+    exports = [
+        "@maven//:io_micrometer_micrometer_core",
+        "@maven//:io_micrometer_micrometer_registry_prometheus",
+    ],
+)
+
+
+
+
+java_library(
+	name = "domain",
+	exports = [
+	    "@maven//:org_slf4j_slf4j_api",
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
+#        "@maven//:org_hibernate_orm_hibernate_core",
+        "//tech-lib:ioc-instance-factory",
+        "@maven//:io_ebean_ebean_annotation",
+        "@maven//:io_ebean_ebean_api",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:io_ebean_ebean_jackson_mapper",
+        "@maven//:com_google_guava_guava",
+	]
+)
+
+
+
+

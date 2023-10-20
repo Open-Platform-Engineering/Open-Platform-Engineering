@@ -81,7 +81,6 @@ public class EscalationPolicy extends TenantAbility {
     public boolean isHandoffNotificationEnabled() {
         return HandoffNotificationEnabled;
     }
-
     public EscalationPolicy addRule(EscalationRule rule) {
         if (Objects.isNull(rule)) {
             log.debug("Skip it add rule to a escalation policy, cause by a null");

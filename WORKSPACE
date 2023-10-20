@@ -281,16 +281,9 @@ HBERNATE_VERSION = "6.2.0.Final"
 JACKSON_VERSION = "2.15.2"
 EBEAN_VERSION = "13.18.0-jakarta"
 
-http_jar(
-  name = "ebean_agent",
-  url = "https://repo1.maven.org/maven2/io/ebean/ebean-agent/13.19.0/ebean-agent-13.19.0.jar",
-  sha256 = "9e6a654f569e55dc97da20c9d19ecd980d0a93dd773d00145ed550725fa5e93f",
-)
 
 maven_install(
     artifacts = [
-
-        'javax.annotation:javax.annotation-api:1.3.2',
 
 #        日志
         "org.slf4j:slf4j-api:2.0.7",

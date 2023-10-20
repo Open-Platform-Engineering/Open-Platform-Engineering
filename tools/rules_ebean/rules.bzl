@@ -7,7 +7,6 @@ def _ebean_ddl_impl(ctx):
 #  args.add("--jvm_flag=" + "-javaagent:" + ctx.attr.ebean_agent_str)
 #  args.add("--jvm_flag="+"-javaagent:../../../../"+ ctx.file.ebean_agent.short_path )
 #  args.add('--main_advice_classpath=' + entity_lib_path)
-  args.add("--jvm_flag=" + "-javaagent:/Users/jack/codebase/everything-in-code-planet/bazel-out/darwin-fastbuild/bin/external/maven/v1/https/maven.aliyun.com/repository/public/io/ebean/ebean-agent/13.20.1/ebean-agent-13.20.1.jar")
   packages = ",".join([package for package in ctx.attr.packages])
   args.add('packages', packages)
   args.add("path", output.path)

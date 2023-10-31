@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "ValidationCodeGeneration",
+    srcs = ["ValidationCodeGenerationImpl.java"],
+    deps = [
+        "//tech-lib:validation",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)

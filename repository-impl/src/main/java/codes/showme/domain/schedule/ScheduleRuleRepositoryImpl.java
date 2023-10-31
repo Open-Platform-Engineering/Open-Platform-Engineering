@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class ScheduleRuleRepositoryImpl implements ScheduleRuleRepository {
@@ -20,7 +21,7 @@ public class ScheduleRuleRepositoryImpl implements ScheduleRuleRepository {
     }
 
     @Override
-    public Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, String tenantId) {
+    public Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, UUID tenantId) {
         Database database = InstanceFactory.getInstance(Database.class);
         return database.find(ScheduleRule.class).where().eq("id", scheduleId).and().eq(ScheduleRule.COLUMN_TENANT_ID, tenantId).findOneOrEmpty();
     }

@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "CacheServiceMockImpl",
+    srcs = ["CacheServiceMockImpl.java"],
+    deps = [
+        "//tech-lib:cache",
+        "@maven//:com_google_guava_guava",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)

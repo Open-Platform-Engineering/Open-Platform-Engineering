@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "AccountRepositoryImpl",
+    srcs = ["AccountRepositoryImpl.java"],
+    deps = [
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//core/src/main/java/codes/showme/domain/team",
+        "@maven//:org_slf4j_slf4j_api"
+    ],
+)

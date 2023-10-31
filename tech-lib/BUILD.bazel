@@ -1,8 +1,31 @@
 package(default_visibility = ["//visibility:public"])
 
+
+java_library(
+    name = "json",
+    srcs = ["src/main/java/codes/showme/techlib/json/JsonService.java"],
+    deps = [
+    ],
+)
+
+java_library(
+    name = "validation",
+    srcs = glob(["src/main/java/codes/showme/techlib/validation/*.java"]),
+    deps = [
+    ],
+)
+
+
+java_library(
+    name = "email",
+    srcs = glob(["src/main/java/codes/showme/techlib/email/*.java"]),
+    deps = [
+    ],
+)
+
 java_library(
     name = "time",
-    srcs = ["src/main/java/codes/showme/techlib/time/TimeRangeHelper.java"],
+    srcs =glob(["src/main/java/codes/showme/techlib/time/TimeRangeHelper.java"]),
     deps = [
         "@maven//:com_google_guava_guava"
     ],
@@ -13,6 +36,13 @@ java_library(
     srcs = glob(["src/main/java/codes/showme/techlib/observation/*.java"]),
     deps = [
         "//third_party:observation",
+    ],
+)
+
+java_library(
+    name = "cache",
+    srcs = glob(["src/main/java/codes/showme/techlib/cache/*.java"]),
+    deps = [
     ],
 )
 

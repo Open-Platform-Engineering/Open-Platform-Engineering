@@ -2,6 +2,7 @@ package codes.showme.domain.tenant;
 
 import codes.showme.techlib.ioc.InstanceFactory;
 import jakarta.persistence.*;
+import jakarta.persistence.GenerationType;
 
 import java.io.Serializable;
 import java.util.UUID;

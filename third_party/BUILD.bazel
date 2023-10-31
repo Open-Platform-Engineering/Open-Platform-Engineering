@@ -48,6 +48,14 @@ java_library(
     ],
 )
 
+java_library(
+    name = "test",
+    exports = [
+        ":test_container",
+        ":unittest"
+    ],
+)
+
 
 java_library(
     name = "observation",

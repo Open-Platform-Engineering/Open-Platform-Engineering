@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Table(name = "cp_schedules")
 @Entity
@@ -40,7 +41,7 @@ public class ScheduleRule extends TenantAbility implements Reassignable {
     @Column(name = "final_schedule")
     private FinalSchedule finalSchedule;
 
-    public static Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, String tenantId) {
+    public static Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, UUID tenantId) {
         ScheduleRuleRepository scheduleRuleRepository = InstanceFactory.getInstance(ScheduleRuleRepository.class);
         return scheduleRuleRepository.findByIdAndTenantId(scheduleId, tenantId);
     }

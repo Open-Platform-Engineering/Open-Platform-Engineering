@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "AccountSignUpEvent",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//third_party:domain",
+        "//tech-lib:cache",
+        "//third_party:repository",
+        "//tech-lib:ioc",
+        "//tech-lib:validation",
+        "//tech-lib:email",
+        "//core/src/main/java/codes/showme/domain/team:team",
+    ],
+)

@@ -279,27 +279,27 @@ SPRING_BOOT_VERSION = "3.1.0"
 SPRING_VERSION = "6.0.9"
 HBERNATE_VERSION = "6.2.0.Final"
 JACKSON_VERSION = "2.15.2"
-EBEAN_VERSION = "13.18.0-jakarta"
-
+EBEAN_VERSION = "13.23.2-jakarta"
 
 maven_install(
     artifacts = [
-
-#        日志
+        # 日志
         "org.slf4j:slf4j-api:2.0.7",
         "ch.qos.logback:logback-classic:1.4.6",
-#        前端
+        # 前端
         "org.springframework.boot:spring-boot-starter-thymeleaf:%s" % SPRING_BOOT_VERSION,
-#        spring
+        # spring
         "org.springframework.boot:spring-boot-autoconfigure:%s" % SPRING_BOOT_VERSION,
         "org.springframework.data:spring-data-jpa:%s" % "3.1.0",
         "org.springframework.boot:spring-boot-test-autoconfigure:%s" % SPRING_BOOT_VERSION,
+        "org.springframework.boot:spring-boot-starter-test:%s" % SPRING_BOOT_VERSION,
+        "org.springframework.boot:spring-boot-starter-validation:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-data-jpa:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-test:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-web:%s" % SPRING_BOOT_VERSION,
-
+        "org.springframework:spring-webmvc:%s" % SPRING_VERSION,
         "org.springframework:spring-beans:%s" % SPRING_VERSION,
         "org.springframework:spring-context:%s" % SPRING_VERSION ,
         "org.springframework:spring-test:%s" % SPRING_VERSION,
@@ -307,14 +307,19 @@ maven_install(
         "org.springframework:spring-core:%s" % SPRING_VERSION,
         "org.springframework:spring-orm:%s" % SPRING_VERSION,
         "org.springframework:spring-tx:%s" % SPRING_VERSION,
-#        持久化
+        "jakarta.servlet:jakarta.servlet-api:6.0.0",
+        'javax.annotation:javax.annotation-api:1.3.2',
+        # persistence
+        "org.hibernate.validator:hibernate-validator:8.0.1.Final",
+        "jakarta.validation:jakarta.validation-api:3.0.2",
+        "javax.validation:validation-api:jar:2.0.0.Final",
         "jakarta.persistence:jakarta.persistence-api:3.1.0",
         "org.hibernate.orm:hibernate-core:%s" % HBERNATE_VERSION,
         "org.hibernate.orm:hibernate-ant:%s" % HBERNATE_VERSION,
         "org.hibernate.orm:hibernate-hikaricp:%s" % HBERNATE_VERSION,
         "com.zaxxer:HikariCP:5.0.1",
 
-        #ebean
+        # ebean
         'io.ebean:ebean-api:%s' % EBEAN_VERSION,
         'io.ebean:ebean-platform-all:%s' % EBEAN_VERSION,
         'io.ebean:ebean-ddl-generator:%s' % EBEAN_VERSION,
@@ -329,42 +334,45 @@ maven_install(
         'io.ebean:ebean-postgres:%s' % EBEAN_VERSION,
         'io.ebean:ebean-platform-postgres:%s' % EBEAN_VERSION,
 
-        #utils
+        # utils
         "org.reflections:reflections:0.10.2",
-        "com.google.guava:guava:32.1.1-jre",
+        "com.google.guava:guava:32.1.3-jre",
         "commons-cli:commons-cli:1.5.0",
-
 
         # json
         "com.fasterxml.jackson.core:jackson-core:%s" % JACKSON_VERSION,
         "com.fasterxml.jackson.core:jackson-databind:%s" % JACKSON_VERSION,
         'com.fasterxml.jackson.core:jackson-annotations:%s'  % JACKSON_VERSION,
         'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:%s'  % JACKSON_VERSION,
-#        jdbc
+        # jdbc
         "org.postgresql:postgresql:42.6.0",
-#       单元测试
+        # 单元测试
         "junit:junit:4.12",
         "org.hamcrest:hamcrest-core:1.3",
         "org.mockito:mockito-core:5.3.1",
 
-#       集成测试
+        # 集成测试
         "org.testcontainers:testcontainers:1.19.1",
         "org.testcontainers:postgresql:1.19.1",
-#       sql版本化
+        # sql版本化
         "org.flywaydb:flyway-core:9.16.3",
-#        observation
+        # observation
         'io.micrometer:micrometer-core:1.11.2',
         'io.micrometer:micrometer-registry-prometheus:1.11.2',
         'io.micrometer:micrometer-observation:1.11.2',
 
-# 间接依赖
+        # 间接依赖
         "com.github.docker-java:docker-java-api:3.3.0",
 
+    ],
+    excluded_artifacts = [
+        "io.ebean:jakarta-persistence-api",
     ],
     fetch_sources = False,
     maven_install_json = "//:maven_install.json",
     repositories = [
         "https://maven.aliyun.com/repository/public",
+        "https://oss.sonatype.org/content/repositories/releases/"
 #        "https://repo1.maven.org/maven2",
     ],
     version_conflict_policy = "pinned",

@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "EmailSenderMockImpl",
+    srcs = ["EmailSenderMockImpl.java"],
+    deps = [
+        "//tech-lib:email",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)

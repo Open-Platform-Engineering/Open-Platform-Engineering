@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Incident {
+public class IncidentReq {
     @JsonProperty("routing_key")
     private String routingKey;
     @JsonProperty("event_action")

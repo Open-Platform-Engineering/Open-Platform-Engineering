@@ -20,7 +20,8 @@ public class EscalationPolicyRepositoryImpl implements EscalationPolicyRepositor
     @Override
     public Pagination<EscalationPolicy> list(int pageIndex, int pageSize) {
         Database database = InstanceFactory.getInstance(Database.class);
-        PagedList<EscalationPolicy> pagedList = database.find(EscalationPolicy.class).setFirstRow(pageIndex - 1).setMaxRows(pageSize).order().desc(EscalationPolicy.COLUMN_CREATED_TIME).findPagedList();
+        PagedList<EscalationPolicy> pagedList = database.find(EscalationPolicy.class).setFirstRow(pageIndex - 1)
+                .setMaxRows(pageSize).orderBy().desc(EscalationPolicy.COLUMN_CREATED_TIME).findPagedList();
         return new Pagination(pageIndex, pageSize, pagedList.getTotalCount(), pagedList.getList());
     }
 
@@ -36,7 +37,7 @@ public class EscalationPolicyRepositoryImpl implements EscalationPolicyRepositor
 //                        EscalationPolicy.COLUMN_RULE_SET,
 //                        "rules[*],escalation_targets[*],schedule_id",
 //                        scheduleId)
-                .order().desc(EscalationPolicy.COLUMN_CREATED_TIME).findPagedList();
+                .orderBy().desc(EscalationPolicy.COLUMN_CREATED_TIME).findPagedList();
         return new Pagination(pageIndex, pageSize, pagedList.getTotalCount(), pagedList.getList());
     }
 

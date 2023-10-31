@@ -73,8 +73,6 @@ public abstract class AbstractIntegrationTest {
 //            // run it ...
         MigrationRunner runner = new MigrationRunner(migrationConfig);
         runner.run(datasource);
-        System.out.println("runner ");
-
 
         Mockito.when(instanceProvider.getInstance(Database.class)).thenReturn(database);
         IncidentRepositoryImpl incidentRepository = new IncidentRepositoryImpl();

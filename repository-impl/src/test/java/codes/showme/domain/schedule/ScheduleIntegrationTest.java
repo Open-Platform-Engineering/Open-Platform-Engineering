@@ -51,7 +51,7 @@ public class ScheduleIntegrationTest extends AbstractIntegrationTest {
         scheduleRule.save();
         Assert.assertEquals(1l, scheduleRule.getId().longValue());
 
-        Optional<ScheduleRule> result = ScheduleRule.findByIdAndTenantId(1l, "xss-122");
+        Optional<ScheduleRule> result = ScheduleRule.findByIdAndTenantId(1l, scheduleRule.getTenantId());
         Assert.assertTrue(result.isPresent());
         ScheduleRule scheduleRuleResult = result.get();
         Assert.assertEquals("sre", scheduleRuleResult.getName());

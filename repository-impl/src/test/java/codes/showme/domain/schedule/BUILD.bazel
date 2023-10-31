@@ -3,6 +3,7 @@ java_test(
     name = "ScheduleIntegrationTest",
     size = "medium",
     srcs=["ScheduleIntegrationTest.java"],
+    resources = ["//tools/rules_ebean/src:logback.xml"],
     test_class = "codes.showme.domain.schedule.ScheduleIntegrationTest",
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
     deps = [

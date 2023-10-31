@@ -124,6 +124,22 @@ public class WriteonlyDbConfig  {
     }
 
     @Override
+    public String toString() {
+        return "WriteonlyDbConfig{" +
+                "driver_class='" + driver_class + '\'' +
+                ", url='" + url + '\'' +
+                ", dialect='" + dialect + '\'' +
+                ", time_zone='" + time_zone + '\'' +
+                ", schema='" + schema + '\'' +
+                ", db_name='" + db_name + '\'' +
+                ", current_session_context_class='" + current_session_context_class + '\'' +
+                ", show_sql=" + show_sql +
+                ", format_sql=" + format_sql +
+                ", packages=" + packages +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -22,9 +22,6 @@ import java.util.Optional;
 public class ShiroRealm extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
-    public static final String HASH_ALGORITHM_NAME = "SHA-256";
-    public static final int HASH_ITERATIONS = 3;
-
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {

@@ -10,17 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Entity
 @Table(name = Account.TABLE_NAME)
 public class Account {
 
+    public static final String COLUMN_EMAIL_VALIDATED = "email_validated";
     private static final Logger logger = LoggerFactory.getLogger(Account.class);
 
     public static final int COLUMN_EMAIL_LENGTH = 128;
     public static final String TABLE_NAME = "cp_account";
-    public static final String COLUMN_EMAIL_VALIDATED = "email_validated";
+    public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_PASSWORD = "password";
+    public static final String COLUMN_PASSWORD_SALT = "password_salt";
     @Id
     @GeneratedValue
     private Long id;
@@ -32,17 +36,23 @@ public class Account {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-    @Column(name = "name", length = 128)
-    private String name;
+    @Column(name = "display_name", length = 128)
+    private String displayName;
 
-    @Column(name = "email", length = COLUMN_EMAIL_LENGTH)
+    @Column(name = COLUMN_EMAIL, length = COLUMN_EMAIL_LENGTH)
     private String email;
 
-    @Column(name = "password", length = 32)
+    @Column(name = COLUMN_PASSWORD, length = 256)
     private String password;
 
+    @Column(name = COLUMN_PASSWORD_SALT, columnDefinition = "bytea")
+    private byte[] passwordSalt;
+
+    @Column(name = "password_hash_iterations", length = 2)
+    private int passwordHashIterations;
+
     @Column(name = COLUMN_EMAIL_VALIDATED)
-    private boolean emailValidated;
+    private boolean emailValidated = false;
 
     @DbJson
     @Column(name = "profile")
@@ -53,6 +63,16 @@ public class Account {
         AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
         accountRepository.emailValidated(email);
         logger.info("account's email was validated email:{}", email);
+    }
+
+    public static Optional<Account> findByEmail(String email) {
+        AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
+        return accountRepository.findByEmail(email);
+    }
+
+    public static Optional<Account> findByEmailAndPassword(String email, String password) {
+        AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
+        return accountRepository.findByEmailAndPassword(email, password);
     }
 
     public long save() {
@@ -72,6 +92,22 @@ public class Account {
     public void signUp() {
         save();
         signUpEventFired();
+    }
+
+    public int getPasswordHashIterations() {
+        return passwordHashIterations;
+    }
+
+    public void setPasswordHashIterations(int passwordHashIterations) {
+        this.passwordHashIterations = passwordHashIterations;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
     public boolean isEmailValidated() {
@@ -114,12 +150,12 @@ public class Account {
         this.createTime = createTime;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {

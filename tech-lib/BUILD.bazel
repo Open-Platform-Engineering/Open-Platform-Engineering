@@ -15,6 +15,13 @@ java_library(
     ],
 )
 
+java_library(
+    name = "hash",
+    srcs = glob(["src/main/java/codes/showme/techlib/hash/*.java"]),
+    deps = [
+    ],
+)
+
 
 java_library(
     name = "email",

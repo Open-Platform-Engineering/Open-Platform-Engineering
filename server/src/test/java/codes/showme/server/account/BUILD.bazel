@@ -32,6 +32,7 @@ java_test(
     test_class = "codes.showme.server.account.AccountControllerTest",
     data = ["@maven//:io_ebean_ebean_agent"],
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    tags = ["docker"],
     resources = [
         "//server/src/main/resources:server-resources",
     ],
@@ -39,3 +40,4 @@ java_test(
         ":lib",
     ],
 )
+

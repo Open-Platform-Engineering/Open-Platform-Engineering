@@ -1,0 +1,11 @@
+java_test(
+    name = "HashServiceTest",
+    srcs = ["HashServiceTest.java"],
+    deps = [
+        "//tech-lib:hash",
+        "//third_party:unittest",
+        "@maven//:org_apache_shiro_shiro_crypto_hash",
+        "@maven//:org_apache_shiro_shiro_lang",
+        "//tech-lib-impl/src/main/java/codes/showme/techlib/hash:HashServiceImpl",
+    ],
+)

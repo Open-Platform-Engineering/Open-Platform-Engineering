@@ -5,6 +5,7 @@ java_test(
     srcs=["TenantRepositoryImplTest.java"],
     test_class = "codes.showme.domain.tenant.TenantRepositoryImplTest",
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    tags = ["docker"],
     deps = [
         "//core/src/main/java/codes/showme/domain/tenant",
         "//repository-impl/src/main/java/codes/showme/domain/tenant:TenantRepositoryImpl",

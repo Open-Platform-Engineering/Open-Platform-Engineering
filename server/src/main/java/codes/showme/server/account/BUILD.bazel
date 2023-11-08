@@ -6,8 +6,13 @@ java_library(
     srcs = glob(["*.java"]),
     deps = [
         "//tech-lib:ioc",
+        "//tech-lib:hash",
         "//core/src/main/java/codes/showme/domain/team:team",
+        "//server/src/main/java/codes/showme/server/auth:auth",
         "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:org_apache_shiro_shiro_core",
+        "@maven//:org_apache_shiro_shiro_web",
+        "@maven//:org_apache_shiro_shiro_spring",
         "@maven//:javax_annotation_javax_annotation_api",
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_hibernate_validator_hibernate_validator",

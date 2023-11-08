@@ -6,6 +6,7 @@ java_test(
     resources = ["//tools/rules_ebean/src:logback.xml"],
     test_class = "codes.showme.domain.schedule.ScheduleIntegrationTest",
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    tags = ["docker"],
     deps = [
         "//core/src/main/java/codes/showme/domain/schedule:schedule",
         "//repository-impl/src/main/java/codes/showme/domain/schedule:ScheduleRuleRepositoryImpl",

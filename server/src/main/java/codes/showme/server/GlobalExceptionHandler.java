@@ -1,6 +1,8 @@
 package codes.showme.server;
 
+import codes.showme.server.auth.UnverifiedEmailAccountException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,18 +18,49 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(UnverifiedEmailAccountException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<?> notVerifiedEmailException(UnverifiedEmailAccountException ex, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
+
+        errors.add(ex.getMessage());
+
+        Map<String, List<String>> result = new HashMap<>();
+
+        result.put("errors", errors);
+
+        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<?> authenticationException(AuthenticationException ex, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
+
+        errors.add(ex.getMessage());
+
+        Map<String, List<String>> result = new HashMap<>();
+
+        result.put("errors", errors);
+
+        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+    }
+
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> notValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
-            List<String> errors = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
 
-            ex.getAllErrors().forEach(err -> errors.add(err.getDefaultMessage()));
+        ex.getAllErrors().forEach(err -> errors.add(err.getDefaultMessage()));
 
-            Map<String, List<String>> result = new HashMap<>();
+        Map<String, List<String>> result = new HashMap<>();
 
-            result.put("errors", errors);
+        result.put("errors", errors);
 
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -7,6 +7,7 @@ java_test(
     srcs=["ServiceRepositoryImplTest.java"],
     test_class = "codes.showme.domain.platform.ServiceRepositoryImplTest",
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    tags = ["docker"],
     deps = [
         "//repository-impl/src/main/java/codes/showme/domain/platform:TicketRepositoryImpl",
         "//core/src/main/java/codes/showme/domain/platform:platform",

@@ -19,6 +19,22 @@ load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
 
+# aspect bazel_lib start
+http_archive(
+    name = "aspect_bazel_lib",
+    sha256 = "ce259cbac2e94a6dff01aff9455dcc844c8af141503b02a09c2642695b7b873e",
+    strip_prefix = "bazel-lib-1.37.0",
+    url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.37.0/bazel-lib-v1.37.0.tar.gz",
+)
+
+load("@aspect_bazel_lib//lib:repositories.bzl", "aspect_bazel_lib_dependencies")
+aspect_bazel_lib_dependencies()
+
+# aspect bazel_lib end
+
+
+
+
 ### rules_cc start
 
 http_archive(
@@ -280,7 +296,7 @@ SPRING_VERSION = "6.0.9"
 HBERNATE_VERSION = "6.2.0.Final"
 JACKSON_VERSION = "2.15.2"
 EBEAN_VERSION = "13.23.2-jakarta"
-
+SHIRO_VERSION = "1.12.0"
 maven_install(
     artifacts = [
         # 日志
@@ -290,8 +306,10 @@ maven_install(
         "org.springframework.boot:spring-boot-starter-thymeleaf:%s" % SPRING_BOOT_VERSION,
         # spring
         "org.springframework.boot:spring-boot-autoconfigure:%s" % SPRING_BOOT_VERSION,
+        "org.springframework.boot:spring-boot-configuration-processor:%s" % SPRING_BOOT_VERSION,
         "org.springframework.data:spring-data-jpa:%s" % "3.1.0",
         "org.springframework.boot:spring-boot-test-autoconfigure:%s" % SPRING_BOOT_VERSION,
+        "javax.servlet:javax.servlet-api:%s" % "3.1.0",
         "org.springframework.boot:spring-boot-starter-test:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-validation:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-data-jpa:%s" % SPRING_BOOT_VERSION,
@@ -309,6 +327,17 @@ maven_install(
         "org.springframework:spring-tx:%s" % SPRING_VERSION,
         "jakarta.servlet:jakarta.servlet-api:6.0.0",
         'javax.annotation:javax.annotation-api:1.3.2',
+
+        # security
+        'org.apache.shiro:shiro-core:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-web:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-lang:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-crypto-hash:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-crypto-core:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-spring-boot-web-starter:%s' % SHIRO_VERSION,
+        'org.apache.shiro:shiro-spring:%s' % SHIRO_VERSION,
+        'org.aspectj:aspectjweaver:1.9.20.1',
+
         # persistence
         "org.hibernate.validator:hibernate-validator:8.0.1.Final",
         "jakarta.validation:jakarta.validation-api:3.0.2",
@@ -352,8 +381,8 @@ maven_install(
         "org.mockito:mockito-core:5.3.1",
 
         # 集成测试
-        "org.testcontainers:testcontainers:1.19.1",
-        "org.testcontainers:postgresql:1.19.1",
+        "org.testcontainers:testcontainers:1.19.0",
+        "org.testcontainers:postgresql:1.19.0",
         # sql版本化
         "org.flywaydb:flyway-core:9.16.3",
         # observation
@@ -555,36 +584,50 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 ## python end
 
 #
-#
-## rule_docker start
-#
-#http_archive(
-#    name = "io_bazel_rules_docker",
-#    sha256 = "b1e80761a8a8243d03ebca8845e9cc1ba6c82ce7c5179ce2b295cd36f7e394bf",
-#    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.25.0/rules_docker-v0.25.0.tar.gz"],
-#)
-#
-#load(
-#    "@io_bazel_rules_docker//repositories:repositories.bzl",
-#    container_repositories = "repositories",
-#)
-#container_repositories()
-#
-#load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
-#
-#container_deps()
-#
-#load(
-#    "@io_bazel_rules_docker//container:container.bzl",
-#    "container_pull",
-#)
-#
-#container_pull(
-#    name = "nginx",
-#    registry = "docker.io",
-#    repository = "library/nginx",
-#    digest = "sha256:f3c37d8a26f7a7d8a547470c58733f270bcccb7e785da17af81ec41576170da8",
-#)
-#
-#
+
+
+
+## rule_oci start
+
+
+http_archive(
+    name = "rules_oci",
+    sha256 = "21a7d14f6ddfcb8ca7c5fc9ffa667c937ce4622c7d2b3e17aea1ffbc90c96bed",
+    strip_prefix = "rules_oci-1.4.0",
+    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.4.0/rules_oci-v1.4.0.tar.gz",
+)
+
+load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
+
+rules_oci_dependencies()
+
+load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "LATEST_ZOT_VERSION", "oci_register_toolchains")
+
+oci_register_toolchains(
+    name = "oci",
+    crane_version = LATEST_CRANE_VERSION,
+    # Uncommenting the zot toolchain will cause it to be used instead of crane for some tasks.
+    # Note that it does not support docker-format images.
+    # zot_version = LATEST_ZOT_VERSION,
+)
+load("@rules_oci//oci:pull.bzl", "oci_pull")
+oci_pull(
+    name = "distroless_java",
+    digest = "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
+    image = "gcr.io/distroless/java17",
+)
+
+# You can pull your base images using oci_pull like this:
+load("@rules_oci//oci:pull.bzl", "oci_pull")
+
+oci_pull(
+    name = "distroless_base",
+    digest = "sha256:ccaef5ee2f1850270d453fdf700a5392534f8d1a8ca2acda391fbb6a06b81c86",
+    image = "gcr.io/distroless/base",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ],
+)
+
 ## rule_docker end

@@ -17,7 +17,10 @@ public class Main {
 
         SpringApplication app = new SpringApplication(Main.class);
         app.addInitializers(applicationContext ->
-                InstanceFactory.setInstanceProvider(new SpringInstanceProvider(applicationContext))
+                {
+                    InstanceFactory.setInstanceProvider(new SpringInstanceProvider(applicationContext));
+                }
+
         );
         app.run(args);
     }

@@ -1,0 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
+
+java_library(
+    name = "HashServiceImpl",
+    srcs = ["HashServiceImpl.java"],
+    deps = [
+        "//tech-lib:hash",
+        "@maven//:org_apache_shiro_shiro_crypto_hash",
+        "@maven//:org_apache_shiro_shiro_crypto_core",
+        "@maven//:org_apache_shiro_shiro_lang",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)

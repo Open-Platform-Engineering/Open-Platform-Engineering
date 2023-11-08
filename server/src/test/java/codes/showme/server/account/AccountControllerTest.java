@@ -48,11 +48,11 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void testSignUp() throws Exception {
-        SignUpReq signUpReq = new SignUpReq();
         String email = "abc@example.com";
+        String password = "password";
+        SignUpReq signUpReq = new SignUpReq();
         signUpReq.setEmail(email);
-        signUpReq.setName("abc");
-        signUpReq.setPassword("password");
+        signUpReq.setPassword(password);
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_UP)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,6 +68,18 @@ public class AccountControllerTest extends AbstractIntegrationTest {
         ).andExpect(status().isOk());
 
         assertNull(cacheService.getValue(email));
+
+
+
+        SignInReq incorrectSignInReq = new SignInReq();
+        incorrectSignInReq.setEmail(email);
+        incorrectSignInReq.setPassword("123");
+        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_IN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new JsonServiceJacksonImpl().toJsonString(incorrectSignInReq))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isUnauthorized());
 
 
     }

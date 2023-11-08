@@ -7,6 +7,7 @@ java_test(
     srcs=["IncidentRepositoryTest.java"],
     test_class = "codes.showme.domain.incident.IncidentRepositoryTest",
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    tags = ["docker"],
     deps = [
         "//core/src/main/java/codes/showme/domain/incident:incident",
         "//repository-impl/src/main/java/codes/showme/domain/incident:IncidentRepositoryImpl",

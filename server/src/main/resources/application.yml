@@ -13,7 +13,27 @@ grpc:
 server:
   port: 8080
 
-
+codeplanet:
+  db:
+    writeonly:
+      url: jdbc:postgresql://localhost:5438/postgres
+      username: postgres
+      password: postgres
+      db_name: postgres
+      driver_class: "org.postgresql.Driver"
+      packages: "codes.showme.domain"
+    readonly:
+      url: jdbc:postgresql://localhost:5438/postgres
+      username: postgres
+      password: postgres
+      db_name: postgres
+      driver_class: "org.postgresql.Driver"
+      packages: "codes.showme.domain"
+  crypto:
+    account:
+      algorithmName: "SHA-256"
+      hashIterations: 3
+      randomSaltNum: 6
 management:
   server:
     port: 30000

@@ -1,33 +1,39 @@
 
-package(default_visibility = ["//visibility:public"])
-
-
 java_library(
-    name = "abstractIntegrationTest",
+    name = "debug",
     srcs = glob(["*.java"]),
-    testonly = True,
-    resources = [
-        "//repository-impl/src/main/sql/domain:migrations",
-        "//repository-impl/src/main/sql/domain/model:migrations"
-    ],
     deps = [
+        "//server/src/main/java/codes/showme/server:lib",
         "//core/src/main/java/codes/showme/domain/team",
         "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//tech-lib:email",
         "//tech-lib:cache",
+        "//tech-lib:hash",
         "//tech-lib:validation",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/cache:CacheServiceMockImpl",
+        "//tech-lib-impl/src/main/java/codes/showme/techlib/hash:HashServiceImpl",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/email:EmailSenderMockImpl",
         "//event-impl/src/main/java/codes/showme/domain/account:AccountSignUpEvent",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/validation:ValidationCodeGeneration",
-        "//third_party:unittest",
         "//third_party:repository",
         "//third_party:db_migration",
-        "//third_party:test_container",
         "@maven//:ch_qos_logback_logback_classic",
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
         "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
     ],
 )
 
+java_binary(
+    name = "debug_app",
+    main_class = "codes.showme.server.Main",
+    testonly = True,
+    data = ["@maven//:io_ebean_ebean_agent"],
+    jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+    resources = [
+        "//server/src/main/resources:server-resources",
+    ],
+    runtime_deps = [
+        ":debug",
+    ],
+)

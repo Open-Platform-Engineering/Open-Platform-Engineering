@@ -1,6 +1,9 @@
 package codes.showme.server.account;
 
 import codes.showme.domain.team.Account;
+import codes.showme.server.auth.ShiroAuthConfiguration;
+import codes.showme.techlib.hash.HashService;
+import codes.showme.techlib.ioc.InstanceFactory;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
@@ -11,10 +14,6 @@ import java.util.Date;
 @JsonIgnoreProperties
 public class SignUpReq {
 
-    @JsonProperty("name")
-    @NotBlank
-    private String name;
-
     @JsonProperty("email")
     @Email
     @NotBlank
@@ -23,29 +22,28 @@ public class SignUpReq {
     @JsonProperty("password")
     @NotBlank
     private String password;
+
     public Account convertToEntity() {
         Account result = new Account();
         result.setCreateTime(new Date());
         result.setEmail(email);
-        result.setPassword(password);
+        HashService hashService = InstanceFactory.getInstance(HashService.class);
+        ShiroAuthConfiguration shiroAuthConfiguration = InstanceFactory.getInstance(ShiroAuthConfiguration.class);
+        result.setPasswordHashIterations(shiroAuthConfiguration.getPasswordHashIterations());
+        HashService.PasswordSaltPair passwordSaltPair = hashService.hash(getPassword(),
+                shiroAuthConfiguration.getAlgorithmName(),
+                shiroAuthConfiguration.getRandomSaltNum(),
+                result.getPasswordHashIterations());
+        result.setPasswordSalt(passwordSaltPair.getSalt());
+        result.setPassword(passwordSaltPair.getPassword());
         return result;
     }
 
     @Override
     public String toString() {
         return "SignUpReq{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                "email='" + email +
                 '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {

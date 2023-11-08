@@ -2,44 +2,19 @@
 
 #load("@aspect_bazel_lib//lib:tar.bzl", "tar")
 load("@rules_oci//oci:defs.bzl", "oci_image")
+load("//server/src/main/java/codes/showme/server:def.bzl","resources","common_deps")
 package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "lib",
     srcs = glob(["*.java"]),
-    deps = [
-        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
-        "//repository-impl/src/main/java/codes/showme/domain/team:AccountRepositoryImpl",
-        "//repository-impl/src/main/java/codes/showme/domain/escalation:EscalationPolicyRepositoryImpl",
-        "//repository-impl/src/main/java/codes/showme/domain/incident:IncidentRepositoryImpl",
-        "//repository-impl/src/main/java/codes/showme/domain/schedule:ScheduleRuleRepositoryImpl",
-        "//core/src/main/java/codes/showme/domain/incident:incident",
-        "//server/src/main/java/codes/showme/server/account:account",
-        "//server/src/main/java/codes/showme/server/auth",
-        "//tech-lib:ioc",
-        "//spring-ioc-impl:ioc-instance-provider-spring-impl",
-        "@maven//:org_springframework_boot_spring_boot",
-        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
-        "@maven//:javax_servlet_javax_servlet_api",
-        "@maven//:org_springframework_boot_spring_boot_starter_web",
-        "@maven//:org_springframework_spring_context",
-        "@maven//:org_springframework_spring_webmvc",
-        "@maven//:org_springframework_boot_spring_boot_starter_validation",
-        "@maven//:jakarta_servlet_jakarta_servlet_api",
-        "@maven//:org_springframework_spring_web",
-        "@maven//:org_apache_shiro_shiro_core",
-        "@maven//:org_apache_shiro_shiro_spring",
-        "@maven//:org_apache_shiro_shiro_web",
-        "@maven//:org_apache_shiro_shiro_spring_boot_web_starter",
-    ],
+    deps = common_deps,
 )
 
 java_binary(
     name = "app",
     main_class = "codes.showme.server.Main",
-    resources = [
-        "//server/src/main/resources:server-resources",
-    ],
+    resources = resources,
     runtime_deps = [
         ":lib",
     ],

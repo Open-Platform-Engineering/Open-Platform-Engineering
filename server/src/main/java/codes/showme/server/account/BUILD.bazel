@@ -18,7 +18,6 @@ java_library(
         "@maven//:org_hibernate_validator_hibernate_validator",
         "@maven//:jakarta_validation_jakarta_validation_api",
         "@maven//:org_springframework_boot_spring_boot_starter_validation",
-        "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
         "@maven//:org_springframework_spring_context",

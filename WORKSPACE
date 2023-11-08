@@ -397,7 +397,7 @@ maven_install(
     excluded_artifacts = [
         "io.ebean:jakarta-persistence-api",
     ],
-    fetch_sources = False,
+    fetch_sources = True,
     maven_install_json = "//:maven_install.json",
     repositories = [
         "https://maven.aliyun.com/repository/public",

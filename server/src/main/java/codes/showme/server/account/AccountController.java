@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AccountController {
     public static final String API_URI_SIGN_UP = "/v1/sign-up";
+    public static final String API_URI_SIGN_OUT = "/v1/sign-out";
     public static final String API_URI_SIGN_IN = "/v1/sign-in";
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
     public static final String API_URI_SIGNUP_EMAIL_VALIDATE = "/v1/sign/up/email/validate";
@@ -41,17 +42,9 @@ public class AccountController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
-        } catch (IncorrectCredentialsException e) {
-            logger.info("password is incorrect:" + signInReq.getEmail());
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        } catch (UnknownAccountException e) {
-            logger.info("unknown account:" + signInReq.getEmail());
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        } catch (AuthenticationException e) {
-            logger.info("sign error:{}", signInReq.getEmail(), e);
-            throw e;
+        } catch (IncorrectCredentialsException | UnknownAccountException e) {
+            throw new AuthenticationException();
         }
-
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
@@ -63,6 +56,17 @@ public class AccountController {
         HttpStatus status = pass ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         logger.info("account signUpValidateEmail :{},email:{}, status:{}", code, email, status);
         return new ResponseEntity<>(null, status);
+    }
+
+    @RequestMapping(value = API_URI_SIGN_OUT, method = RequestMethod.POST)
+    public ResponseEntity<?> signOut() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }

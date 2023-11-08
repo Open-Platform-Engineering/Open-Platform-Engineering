@@ -1,38 +1,25 @@
+load("//server/src/main/java/codes/showme/server:def.bzl","resources","common_deps")
+
 
 java_library(
     name = "debug",
     srcs = glob(["*.java"]),
+    testonly = True,
     deps = [
         "//server/src/main/java/codes/showme/server:lib",
-        "//core/src/main/java/codes/showme/domain/team",
-        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
-        "//tech-lib:ioc",
-        "//tech-lib:email",
-        "//tech-lib:cache",
-        "//tech-lib:hash",
-        "//tech-lib:validation",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/cache:CacheServiceMockImpl",
-        "//tech-lib-impl/src/main/java/codes/showme/techlib/hash:HashServiceImpl",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/email:EmailSenderMockImpl",
-        "//event-impl/src/main/java/codes/showme/domain/account:AccountSignUpEvent",
-        "//tech-lib-impl/src/main/java/codes/showme/techlib/validation:ValidationCodeGeneration",
-        "//third_party:repository",
         "//third_party:db_migration",
-        "@maven//:ch_qos_logback_logback_classic",
-        "@maven//:com_fasterxml_jackson_core_jackson_databind",
-        "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
-    ],
+    ] + common_deps,
 )
 
 java_binary(
     name = "debug_app",
     main_class = "codes.showme.server.Main",
     testonly = True,
-    data = ["@maven//:io_ebean_ebean_agent"],
+    data = ["@maven//:io_ebean_ebean_agent",],
     jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
-    resources = [
-        "//server/src/main/resources:server-resources",
-    ],
+    resources = resources,
     runtime_deps = [
         ":debug",
     ],

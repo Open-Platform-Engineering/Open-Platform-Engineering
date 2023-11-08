@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,12 +48,19 @@ public class AccountControllerTest extends AbstractIntegrationTest {
     private int port;
 
     @Test
-    public void testSignUp() throws Exception {
+    public void accountControllerTest() throws Exception {
         String email = "abc@example.com";
         String password = "password";
         SignUpReq signUpReq = new SignUpReq();
         signUpReq.setEmail(email);
         signUpReq.setPassword(password);
+
+        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new JsonServiceJacksonImpl().toJsonString(signUpReq))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isUnauthorized());
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_UP)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -70,17 +78,24 @@ public class AccountControllerTest extends AbstractIntegrationTest {
         assertNull(cacheService.getValue(email));
 
 
-
         SignInReq incorrectSignInReq = new SignInReq();
         incorrectSignInReq.setEmail(email);
         incorrectSignInReq.setPassword("123");
-        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_IN)
+        MockHttpServletResponse signResp = mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_IN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new JsonServiceJacksonImpl().toJsonString(incorrectSignInReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()).andReturn().getResponse();
 
+
+//        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .cookie(signResp.getCookies())
+//                        .content(new JsonServiceJacksonImpl().toJsonString(signUpReq))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                )
+//                .andExpect(status().isOk());
 
     }
 

@@ -4,6 +4,7 @@ load("@aspect_rules_swc//swc:defs.bzl", "swc")
 load("@aspect_rules_webpack//webpack:defs.bzl", "webpack_bundle", "webpack_devserver")
 
 npm_link_all_packages(name = "node_modules")
+package(default_visibility = ["//visibility:public"])
 
 
 exports_files(
@@ -18,9 +19,19 @@ swc(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "config",
+    srcs = glob(["package.json", "tailwind.config.js", "postcss.config.js"]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "public",
+    srcs = glob(["public/**", "src/**/*.css"]),
+)
 
 
-STATIC_ASSETS = ["public/**", "src/**/*.css"]
+#STATIC_ASSETS = ["public/**", "src/**/*.css"]
 
 lib_deps = [
         "//:node_modules/react",
@@ -51,9 +62,10 @@ lib_deps = [
 webpack_bundle(
     name = "bundle",
     chdir = package_name(),
-    srcs = [":transpile", ] + glob(STATIC_ASSETS) + ["package.json", "tailwind.config.js", "postcss.config.js"],
+    srcs = [":transpile", ":config", ":public", ] ,
     node_modules = ":node_modules",
-    output_dir = True,
+#   output_dir have to be set False so that other target can reference it then.
+    output_dir = False,
     entry_point = "//web-ui:src/index.js",
     webpack_config = ":webpack.bazel.config.js",
     deps = lib_deps,
@@ -62,7 +74,7 @@ webpack_bundle(
 webpack_devserver(
     name = "dev_server",
     chdir = package_name(),
-    data = [":transpile"] + glob(STATIC_ASSETS) + lib_deps + ["package.json", "tailwind.config.js", "postcss.config.js"],
+    data = [":transpile", ":config", ":public",]  + lib_deps,
     entry_point = "//web-ui:src/index.js",
     node_modules = ":node_modules",
     webpack_config = ":webpack.bazel.config.js",

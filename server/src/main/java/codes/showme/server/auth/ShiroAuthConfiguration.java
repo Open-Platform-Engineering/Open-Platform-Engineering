@@ -7,6 +7,7 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -38,6 +39,8 @@ public class ShiroAuthConfiguration {
         hashedCredentialsMatcher.setHashIterations(getPasswordHashIterations());
         singleRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         DefaultWebSecurityManager result = new DefaultWebSecurityManager(singleRealm);
+        DefaultSessionManager sessionManager = new DefaultSessionManager();
+        result.setSessionManager(sessionManager);
         SecurityUtils.setSecurityManager(result);
         return result;
     }
@@ -55,6 +58,7 @@ public class ShiroAuthConfiguration {
         // logged in users with the 'document:read' permission
         chainDefinition.addPathDefinition("/v1/sign-in", "anon");
         chainDefinition.addPathDefinition("/v1/sign-up", "anon");
+        chainDefinition.addPathDefinition("/v1/sign-out", "authc");
         chainDefinition.addPathDefinition("/v1/sign/up/email/validate", "anon");
         chainDefinition.addPathDefinition("/v2/enqueue", "anon");
 

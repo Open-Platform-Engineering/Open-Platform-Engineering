@@ -1,8 +1,20 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/web-ui/public/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/web-ui/
   application:
     name: codes-planet
   main:
     banner-mode: "off"
+#  mvc:
+#    static:
+#      static-path-pattern: ""
+#    view:
+#      prefix: classpath:/web-ui/public/
+#      suffix: .html
 logging:
   level:
     root: info

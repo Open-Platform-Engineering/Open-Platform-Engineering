@@ -6,22 +6,17 @@ import {
   Alert,
   Typography,
 } from "@material-tailwind/react";
-import {
-  CognitoUserPool,
-  CognitoUserAttribute,
-  CognitoUser,
-  AuthenticationDetails,
-} from "amazon-cognito-identity-js";
+
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 
 import { useForm } from "react-hook-form";
 import { Form, Link } from "react-router-dom";
-import AwsCognitoUserPool from "../components/AwsCognito";
-import AwsConfigContext from "../AwsConfigContext";
+
+
 
 const ForgetPassword = () => {
-  const awsConfig = useContext(AwsConfigContext);
+
   const [stage, setStage] = useState(0);
   const [confirmationError, setConfirmationError] = useState(undefined);
   const [sendError, setSendError] = useState(undefined);
@@ -33,15 +28,7 @@ const ForgetPassword = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const userPool = AwsCognitoUserPool(
-      awsConfig.UserPoolId,
-      awsConfig.ClientId
-    );
-    var userData = {
-      Username: data.email,
-      Pool: userPool,
-    };
-    var cognitoUser = new CognitoUser(userData);
+
     cognitoUser.confirmPassword(data.code, data.password, {
       onSuccess: function (success) {
         console.log(success);
@@ -53,14 +40,7 @@ const ForgetPassword = () => {
   };
 
   const sendVerificationCode = (data) => {
-    const userPool = AwsCognitoUserPool(
-      awsConfig.UserPoolId,
-      awsConfig.ClientId
-    );
-    var userData = {
-      Username: data.email,
-      Pool: userPool,
-    };
+    
     var cognitoUser = new CognitoUser(userData);
     cognitoUser.forgotPassword({
       onSuccess: function (data) {

@@ -33,6 +33,9 @@ const SignIn = () => {
 
     authenticate(data.email, data.password).then(result => {
       setSignInError(undefined);
+      
+
+
       // getSession().then(setSession).catch((err) => {console.log(err)});
       // navigate("/", { replace: true });
       window.location.href = '/';

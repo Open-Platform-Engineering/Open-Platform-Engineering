@@ -1,6 +1,7 @@
 resources = [
     "//server/src/main/resources:server-resources",
-    "//web-ui:bundle",
+#    uncomment this if you would like to integrate html file into java program
+#    "//web-ui:bundle",
 ]
 
 common_deps = [

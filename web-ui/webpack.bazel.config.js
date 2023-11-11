@@ -42,14 +42,14 @@ module.exports = {
         throw new Error('webpack-dev-server is not defined');
       }
 
-      devServer.app.get('/_aws_config', (_, res) => {
-        res.json({
-          Region: "",
-          UserPoolId: "",
-          ClientId: "",
-          IdentityPoolId: ""
-        });
-      });
+//      devServer.app.get('/_aws_config', (_, res) => {
+//        res.json({
+//          Region: "",
+//          UserPoolId: "",
+//          ClientId: "",
+//          IdentityPoolId: ""
+//        });
+//      });
       return middlewares;
     }
   },

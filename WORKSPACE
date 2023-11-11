@@ -400,8 +400,8 @@ maven_install(
     fetch_sources = True,
     maven_install_json = "//:maven_install.json",
     repositories = [
+#        "https://oss.sonatype.org/content/repositories/releases/",
         "https://maven.aliyun.com/repository/public",
-        "https://oss.sonatype.org/content/repositories/releases/"
 #        "https://repo1.maven.org/maven2",
     ],
     version_conflict_policy = "pinned",
@@ -572,24 +572,20 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 
 # Create a central repo that knows about the dependencies needed from
 # requirements_lock.txt.
-#pip_parse(
-#   name = "pip_deps",
-#   python_interpreter_target = interpreter_3_11,
-#   requirements_lock = "//repository-hibernate-impl/src/test/python:requirements_lock.txt",
-#)
+pip_parse(
+   name = "pip_deps",
+   python_interpreter_target = interpreter_3_11,
+   requirements_lock = "//third_party:requirements_lock.txt",
+)
 # Load the starlark macro which will define your dependencies.
-#load("@pip_deps//:requirements.bzl", "install_deps")
+load("@pip_deps//:requirements.bzl", "install_deps")
 ## Call it to define repos for your requirements.
-#install_deps()
+install_deps()
+
 ## python end
-
-#
-
 
 
 ## rule_oci start
-
-
 http_archive(
     name = "rules_oci",
     sha256 = "21a7d14f6ddfcb8ca7c5fc9ffa667c937ce4622c7d2b3e17aea1ffbc90c96bed",

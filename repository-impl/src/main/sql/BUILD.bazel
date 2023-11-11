@@ -1,0 +1,32 @@
+load("@pip_deps//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_test")
+#
+#py_test(
+#    name = "sql_test",
+#    srcs = ["sql_test.py"],
+#    data = [ "//repository-impl/src/main/sql/domain:migrations",":.sqlfluff"],
+#    deps = [
+#       requirement("sqlfluff"),
+#       requirement("Jinja2"),
+#       requirement("MarkupSafe"),
+#       requirement("Pygments"),
+#       requirement("appdirs"),
+#       requirement("chardet"),
+#       requirement("click"),
+#       requirement("colorama"),
+#       requirement("diff_cover"),
+#       requirement("iniconfig"),
+#       requirement("packaging"),
+#       requirement("pathspec"),
+#       requirement("pluggy"),
+#       requirement("pytest"),
+#       requirement("tomli"),
+#       requirement("toml"),
+#       requirement("exceptiongroup"),
+#       requirement("pyyaml"),
+#       requirement("regex"),
+#       requirement("tblib"),
+#       requirement("tqdm"),
+#       requirement("typing_extensions"),
+#    ],
+#)

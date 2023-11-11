@@ -61,6 +61,5 @@ public class ShiroRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(account.getPasswordSalt()),
                 "shiroRealm"
         );
-
     }
 }

@@ -4,6 +4,6 @@ filegroup(
         "application.yml",
 #        "templates/*.html",
 #        "static/*.js",
-    ]) + ["//web-ui:public","//web-ui:bundle"],
+    ]) ,
     visibility = ["//visibility:public"],
 )

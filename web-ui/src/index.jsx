@@ -32,12 +32,12 @@ const router = createBrowserRouter([
         path: "forget-password",
         element: <ForgetPassword/>
       },
+      {
+        path: "email-validation/:email",
+        element: <EmailValidation />,
+        loader: emailValidationLoader,
+      },
     ],
-  },
-  {
-    path: "email-validation/:email",
-    element: <EmailValidation />,
-    loader: emailValidationLoader,
   },
 ]);
 

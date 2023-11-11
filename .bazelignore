@@ -2,6 +2,7 @@
 node_modules
 dist
 web-ui/node_modules
+web_ui_htmx_flask/node_modules
 environments/dev/npm/node_modules
 environments/prod/npm/node_modules
 environments/test/npm/node_modules

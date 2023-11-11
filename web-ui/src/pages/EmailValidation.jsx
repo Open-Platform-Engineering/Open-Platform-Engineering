@@ -6,12 +6,10 @@ import {
   Alert,
   Typography,
 } from "@material-tailwind/react";
-import {
-  CognitoUserPool,
-  CognitoUserAttribute,
-  CognitoUser,
-} from "amazon-cognito-identity-js";
 import React from "react";
+import { useState, useEffect, useContext } from "react";
+import { AccountContext } from "../AccountContext";
+
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -20,7 +18,6 @@ import {
   useNavigate,
   useLoaderData,
 } from "react-router-dom";
-import AwsCognitoUserPool from "../components/AwsCognito";
 
 export async function loader({ params }) {
   const email = params.email;
@@ -28,25 +25,13 @@ export async function loader({ params }) {
 }
 
 function ResendConfirmationCode({ email }) {
-  const [hadSent, setHadSent] = React.useState();
+  const [hadSent, setHadSent] = useState(false);
   const onChange = ({ target }) => setHadSent(target.value);
 
   function doResendConfirmationCode(e, email) {
     e.preventDefault();
-    const userPool = AwsCognitoUserPool();
     alert(email);
-    var userData = {
-      Username: email,
-      Pool: userPool,
-    };
-    var cognitoUser1 = new CognitoUser(userData);
-    cognitoUser1.resendConfirmationCode(function (err, result) {
-      if (err) {
-        alert(err.message || JSON.stringify(err));
-        return;
-      }
-      
-    });
+    
   }
   return (
     <Button
@@ -62,8 +47,10 @@ function ResendConfirmationCode({ email }) {
 }
 
 const EmailValidation = () => {
-
+  const {emailValidation} = useContext(AccountContext);
+  const navigate = useNavigate();
   const email = useLoaderData().params.email;
+
   const {
     register,
     handleSubmit,
@@ -72,21 +59,21 @@ const EmailValidation = () => {
 
   const onSubmit = (data) => {
     const email = data.email;
-    console.log(email);
-    const userPool = AwsCognitoUserPool();
-    var userData = {
-      Username: email,
-      Pool: userPool,
-    };
-    var cognitoUser = new CognitoUser(userData);
-    cognitoUser.confirmRegistration(data.code, true, function (err, result) {
-      if (err) {
-        alert(err.message || JSON.stringify(err));
-        return;
+    const code = data.code;
+    let formData = new FormData();
+    formData.append("email", email);
+    formData.append("code", code);
+    
+    emailValidation(email, code).then((result) => {
+      navigate("/sign-in", { replace: false });
+    }).catch((err) => {
+      if (err.code === "UsernameExistsException") {
+      } else {
+        navigate("/email-validation/" + data.email);
       }
+      
     });
-    // const navigate = useNavigate();
-    // navigate("/sign-in", { replace: true });
+    navigate("/sign-in", { replace: true });
   };
 
   return (

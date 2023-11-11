@@ -1,139 +1,93 @@
-import React, { createContext, useContext, useState,useEffect } from "react";
-import {
-  CognitoUserPool,
-  CognitoUserAttribute,
-  CognitoUser,
-  AuthenticationDetails,
-  CookieStorage,
-} from "amazon-cognito-identity-js";
-import AwsCognitoUserPool from "./components/AwsCognito";
-import AwsConfigContext from "./AwsConfigContext";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AccountContext = createContext();
 
 const Account = ({ children }) => {
-  const awsConfig = useContext(AwsConfigContext);
   const [session, setSession] = useState();
-  const [logined,setLogined] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetch("/_aws_config")
-        .then((response) => response.json())
-        .then((data) => {
-          const userPool = AwsCognitoUserPool(
-            data.UserPoolId,
-            data.ClientId
-          );
-          const currentUser = userPool.getCurrentUser();
-          if(currentUser){
-            currentUser.getSession((err, session) => {
-              console.log(session);
-              setLogined(true);
-              setSession(session);
-            });
-            // console.log(currentUser);
-            // 
-          }
-        })
-        .catch((err) => console.log("Request Failed", err));
-    };
-    fetchData();
-  }, []);
+  const [logined, setLogined] = useState(false);
 
-
-  const signOut = async () => await new Promise((resolve, reject) => {
-    const userPool = AwsCognitoUserPool(
-      awsConfig.UserPoolId,
-      awsConfig.ClientId
-    );
-    const currentUser = userPool.getCurrentUser();
-    if(currentUser){
-      currentUser.signOut();
-    }
-  });
-  const signUp = async (email, password) => await new Promise((resolve, reject) => {
-    const userPool = AwsCognitoUserPool(
-      awsConfig.UserPoolId,
-      awsConfig.ClientId,
-    );
-
-    var attributeList = [];
-
-    var dataEmail = {
-      Name: "email",
-      Value: email,
-    };
-
-    var attributeEmail = new CognitoUserAttribute(dataEmail);
-
-    attributeList.push(attributeEmail);
-
-    userPool.signUp(
-      email,
-      password,
-      attributeList,
-      null,
-      function (err, result) {
-        if (err) {
-          reject(err)
-        }else{
-          resolve(result)
-        }
-      }
-    );
-
-  });
-  const getSession = async () =>
+  const signOut = async () => await new Promise((resolve, reject) => {});
+  const emailValidation = async (email, code) =>
     await new Promise((resolve, reject) => {
-      const userPool = AwsCognitoUserPool(
-        awsConfig.UserPoolId,
-        awsConfig.ClientId
-
-      );
-      const currentUser = userPool.getCurrentUser();
-      if (currentUser) {
-        currentUser.getSession((err, session) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(session);
-          }
+      axios
+        .get(`/v1/sign/up/email/validate`, {
+          params: { email: email, code: code },
+        })
+        // Handle the response from backend here
+        .then((res) => {
+          resolve(res);
+        })
+        // Catch errors if any
+        .catch((err) => {
+          reject(err);
         });
-      } else {
-        reject();
-      }
     });
+  const signUp = async (email, password) =>
+    await new Promise((resolve, reject) => {
+      let formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      axios({
+        // Endpoint to send files
+        url: "/v1/sign-up",
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        // Attaching the form data
+        data: formData,
+      })
+        // Handle the response from backend here
+        .then((res) => {
+          resolve(res);
+        })
+
+        // Catch errors if any
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  const getSession = async () => {};
+
   const authenticate = async (email, password) =>
     await new Promise((resolve, reject) => {
-      var authenticationData = {
-        Username: email,
-        Password: password,
-      };
-      var authenticationDetails = new AuthenticationDetails(authenticationData);
-      const userPool = AwsCognitoUserPool(
-        awsConfig.UserPoolId,
-        awsConfig.ClientId
-      );
-      var userData = {
-        Username: email,
-        Pool: userPool,
-        Storage: new CookieStorage({ domain: 'localhost', secure: false, expires: 365 })
-      };
-      var cognitoUser = new CognitoUser(userData);
-      cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
-          resolve(result);
-        },
-        onFailure: function (err) {
+      let formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      axios({
+        // Endpoint to send files
+        url: "/v1/sign-in",
+        method: "POST",
+        // Attaching the form data
+        data: formData,
+      })
+        // Handle the response from backend here
+        .then((res) => {
+          resolve(res);
+        })
+
+        // Catch errors if any
+        .catch((err) => {
           reject(err);
-        },
-        // mfaRequired: codeDeliveryDetails => reject(codeDeliveryDetails),
-        // newPasswordRequired: (fields, required) => reject({ fields, required })
-      });
+        });
     });
 
   return (
-    <AccountContext.Provider value={{authenticate,getSession,session,setSession,signOut,signUp,logined}}>
+    <AccountContext.Provider
+      value={{
+        authenticate,
+        getSession,
+        session,
+        setSession,
+        signOut,
+        signUp,
+        logined,
+        emailValidation,
+      }}
+    >
       {children}
     </AccountContext.Provider>
   );

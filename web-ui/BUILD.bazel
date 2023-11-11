@@ -34,6 +34,7 @@ filegroup(
 #STATIC_ASSETS = ["public/**", "src/**/*.css"]
 
 lib_deps = [
+        "//:node_modules/axios",
         "//:node_modules/react",
         "//:node_modules/react-dom",
         "//:node_modules/tailwindcss",

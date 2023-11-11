@@ -230,15 +230,12 @@ const Nav = () => {
   }, []);
   const doSignOut = (event) => {
     signOut().then(() => {
-      console.log(33333333);
       setSession(null);
       window.location.href = '/';
     });
   };
   
-  console.log("11111111" + (logined == true));
-  console.log(status);
-  console.log(logined);
+
   return (
     <Navbar className="mx-auto max-w-screen-xl px-4 py-2">
       <div className="flex items-center justify-between text-blue-gray-900">

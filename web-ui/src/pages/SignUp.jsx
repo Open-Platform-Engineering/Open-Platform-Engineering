@@ -6,17 +6,10 @@ import {
   Alert,
   Typography,
 } from "@material-tailwind/react";
-import {
-  CognitoUserPool,
-  CognitoUserAttribute,
-  CognitoUser,
-} from "amazon-cognito-identity-js";
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Link, redirect, useNavigate } from "react-router-dom";
-import AwsCognitoUserPool from "../components/AwsCognito";
 import { AccountContext } from "../AccountContext";
-import AwsConfigContext from "../AwsConfigContext";
 
 export async function action({ request, params }) {
   return redirect(`/email-validation`);
@@ -73,22 +66,6 @@ const SignUp = () => {
             <div>
               <Input
                 size="lg"
-                label="Name"
-                {...register("name", {
-                  required: "Username is required",
-                  minLength: {
-                    value: 3,
-                    message: "Username must be at least 3 characters",
-                  },
-                })}
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm">{errors.name.message}</p>
-              )}
-            </div>
-            <div>
-              <Input
-                size="lg"
                 label="Email"
                 {...register("email", {
                   required: "Email is required",
@@ -124,24 +101,6 @@ const SignUp = () => {
               )}
             </div>
           </div>
-          {/* <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center font-normal"
-              >
-                I agree the
-                <a
-                  href="#"
-                  className="font-medium transition-colors hover:text-gray-900"
-                >
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          /> */}
           {existsUser && (
             <Typography color="red">
               The email is exists. Would you like to sign in?

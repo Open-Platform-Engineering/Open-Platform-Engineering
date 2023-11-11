@@ -1,10 +1,7 @@
 spring:
-  thymeleaf:
-    prefix: classpath:/web-ui/public/
-    suffix: .html
   web:
     resources:
-      static-locations: classpath:/web-ui/
+      static-locations: classpath:/static/
   application:
     name: codes-planet
   main:

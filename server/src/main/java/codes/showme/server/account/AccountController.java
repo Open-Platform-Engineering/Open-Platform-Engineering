@@ -42,10 +42,11 @@ public class AccountController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
+            return ResponseEntity.ok().header("jwt", "" + subject.getSession().getId()).build();
         } catch (IncorrectCredentialsException | UnknownAccountException e) {
             throw new AuthenticationException();
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+
     }
 
     @RequestMapping(value = API_URI_SIGNUP_EMAIL_VALIDATE, method = RequestMethod.GET)

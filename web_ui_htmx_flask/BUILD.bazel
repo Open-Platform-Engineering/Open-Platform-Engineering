@@ -1,50 +1,7 @@
 load("@pip_deps//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary","py_library")
-load("@npm//:defs.bzl", "npm_link_all_packages")
-load("@aspect_rules_js//js:defs.bzl", "js_library")
-load("@aspect_rules_swc//swc:defs.bzl", "swc")
-load("@aspect_rules_webpack//webpack:defs.bzl", "webpack_bundle", "webpack_devserver")
 
-npm_link_all_packages(name = "node_modules")
 package(default_visibility = ["//visibility:public"])
-
-
-filegroup(
-    name = "config",
-    srcs = glob(["package.json", "tailwind.config.js", "postcss.config.js"]),
-    visibility = ["//visibility:public"],
-)
-
-filegroup(
-    name = "public",
-    srcs = glob(["static/src/**","templates/*"]),
-)
-
-
-lib_deps = [
-        "//:node_modules/tailwindcss",
-#        ":node_modules/tailwind-merge",
-        ":node_modules/postcss-loader",
-        ":node_modules/postcss",
-        ":node_modules/mini-css-extract-plugin",
-        "//:node_modules/autoprefixer",
-        ":node_modules/html-webpack-plugin",
-        ":node_modules/css-loader",
-        ":node_modules/style-loader",
-        ":node_modules/file-loader",
-
-]
-
-webpack_bundle(
-    name = "bundle",
-    chdir = package_name(),
-    srcs = ["static/src/index.js", ":config", ":public", ] ,
-    node_modules = "//:node_modules",
-    output_dir = False,
-    entry_point = "//web_ui_htmx_flask:static/src/index.js",
-    webpack_config = ":webpack.bazel.config.js",
-    deps = lib_deps,
-)
 
 py_library(
     name = "todo",
@@ -67,5 +24,10 @@ py_binary(
 #      requirement("webassets"),
 #      requirement("pytailwindcss"),
       requirement("itsdangerous"),
+      requirement("requests"),
+      requirement("urllib3"),
+      requirement("certifi"),
+      requirement("idna"),
+      requirement("charset-normalizer"),
   ]
 )

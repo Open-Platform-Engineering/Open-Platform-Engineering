@@ -3,6 +3,11 @@ Flask-Assets==2.1.0
 pytailwindcss==0.1.4
 blinker==1.6.2
 Werkzeug==3.0.0
+requests==2.31.0
+idna==3.4
+certifi==2023.7.22
+charset-normalizer==3.3.2
+urllib3==2.0.7
 itsdangerous==2.1.2
 webassets==2.0
 sqlfluff==2.0.5

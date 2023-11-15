@@ -1,9 +1,8 @@
-package(default_visibility = [
-    "//server:__subpackages__"])
+package(default_visibility = ["//server:__subpackages__"])
 
 java_library(
-    name = "account",
-    srcs = glob(["*.java"]),
+    name = "account_rest",
+    srcs = glob(["AccountController.java","SignInReq.java","SignUpReq.java"]),
     deps = [
         "//tech-lib:ioc",
         "//tech-lib:hash",

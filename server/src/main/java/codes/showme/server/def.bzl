@@ -1,13 +1,11 @@
 resources = [
     "//server/src/main/resources:server-resources",
-#    uncomment this if you would like to integrate html file into java program
-#    "//web-ui:bundle",
 ]
 
 common_deps = [
         "//core/src/main/java/codes/showme/domain/incident:incident",
         "//core/src/main/java/codes/showme/domain/team",
-        "//server/src/main/java/codes/showme/server/account:account",
+        "//server/src/main/java/codes/showme/server/account:account_rest",
         "@maven//:org_springframework_boot_spring_boot_starter_thymeleaf",
         "//server/src/main/java/codes/showme/server/auth",
         "//tech-lib:ioc",

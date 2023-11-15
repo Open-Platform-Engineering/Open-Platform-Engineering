@@ -8,7 +8,7 @@ java_library(
         "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//server/src/main/java/codes/showme/server/api:event2_request",
         "//server/src/test/java/codes/showme/server:abstractIntegrationTest",
-        "//server/src/main/java/codes/showme/server/account",
+        "//server/src/main/java/codes/showme/server/account:account_rest",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/json:json",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/cache:CacheServiceMockImpl",
         "//tech-lib:validation",

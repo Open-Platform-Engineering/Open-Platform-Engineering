@@ -18,3 +18,6 @@ query --noexperimental_check_external_repository_files
 # Avoid this flag being enabled by remote_download_minimal or remote_download_toplevel
 # See https://meroton.com/blog/bazel-6-errors-build-without-the-bytes/
 build --noexperimental_action_cache_store_output_metadata
+
+build --action_env=BAZEL_CXXOPTS="-std=c++14"
+#build --remote_executor=grpc://school.showme.codes:8980

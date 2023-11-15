@@ -15,9 +15,6 @@ http_archive(
     ],
 )
 
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-
-bazel_skylib_workspace()
 
 # aspect bazel_lib start
 http_archive(
@@ -26,16 +23,21 @@ http_archive(
     strip_prefix = "bazel-lib-1.37.0",
     url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.37.0/bazel-lib-v1.37.0.tar.gz",
 )
-
-load("@aspect_bazel_lib//lib:repositories.bzl", "aspect_bazel_lib_dependencies")
-aspect_bazel_lib_dependencies()
-
 # aspect bazel_lib end
 
 
-
-
-### rules_cc start
+http_archive(
+    name = "rules_python",
+    sha256 = "9d04041ac92a0985e344235f5d946f71ac543f1b1565f2cdbc9a2aaee8adf55b",
+    strip_prefix = "rules_python-0.26.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.26.0/rules_python-0.26.0.tar.gz",
+)
+#http_archive(
+#    name = "rules_python",
+#    sha256 = "fda23c37fbacf7579f94d5e8f342d3a831140e9471b770782e83846117dd6596",
+#    strip_prefix = "rules_python-0.15.0",
+#    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.15.0.tar.gz",
+#)
 
 http_archive(
     name = "rules_cc",
@@ -43,12 +45,7 @@ http_archive(
     sha256 = "3d9e271e2876ba42e114c9b9bc51454e379cbf0ec9ef9d40e2ae4cec61a31b40",
     strip_prefix = "rules_cc-0.0.6",
 )
-load("@rules_cc//cc:repositories.bzl", "rules_cc_dependencies", "rules_cc_toolchains")
 
-rules_cc_dependencies()
-
-rules_cc_toolchains()
-### rules_cc end
 
 http_archive(
     name = "io_bazel_rules_go",
@@ -68,23 +65,120 @@ http_archive(
     ],
 )
 
+http_archive(
+    name = "io_bazel_rules_jsonnet",
+    sha256 = "d20270872ba8d4c108edecc9581e2bb7f320afab71f8caa2f6394b5202e8a2c3",
+    strip_prefix = "rules_jsonnet-0.4.0",
+    urls = ["https://github.com/bazelbuild/rules_jsonnet/archive/0.4.0.tar.gz"],
+)
+
+
+CPP_JSONNET_SHA256 = "af7c9c102daab64de39fe9e479acc7389b8dd2d0647c2f9c6abc9c429070b0b8"
+CPP_JSONNET_GITHASH = "813c7412d1c7a42737724d011618d0fd7865bc69"
+
+http_archive(
+    name = "cpp_jsonnet",
+    sha256 = CPP_JSONNET_SHA256,
+    strip_prefix = "jsonnet-%s" % CPP_JSONNET_GITHASH,
+    urls = ["https://github.com/google/jsonnet/archive/%s.tar.gz" % CPP_JSONNET_GITHASH],
+)
+
+http_archive(
+    name = "jsonnet",
+    sha256 = "85c240c4740f0c788c4d49f9c9c0942f5a2d1c2ae58b2c71068107bc80a3ced4",
+    strip_prefix = "jsonnet-0.18.0",
+    urls = [
+        "https://github.com/google/jsonnet/archive/v0.18.0.tar.gz",
+    ],
+)
+
+http_archive(
+    name = "google_jsonnet_go",
+    sha256 = "20fdb3599c2325fb11a63860e7580705590faf732abf47ed144203715bd03a70",
+    strip_prefix = "go-jsonnet-0d78479d37eabd9451892dd02be2470145b4d4fa",
+    urls = ["https://github.com/google/go-jsonnet/archive/0d78479d37eabd9451892dd02be2470145b4d4fa.tar.gz"],
+)
+
+RULES_JVM_EXTERNAL_TAG = "4.5"
+RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
+
+http_archive(
+    name = "rules_jvm_external",
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+node_version = "16.14.2"
+http_archive(
+    name = "rules_nodejs",
+    sha256 = "764a3b3757bb8c3c6a02ba3344731a3d71e558220adcb0cf7e43c9bba2c37ba8",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.2/rules_nodejs-core-5.8.2.tar.gz"],
+)
+http_archive(
+    name = "aspect_rules_js",
+    sha256 = "bdbd6df52fc7963f55281fe0a140e21de8ec587ab711a8a2fff0715b6710a4f8",
+    strip_prefix = "rules_js-1.32.0",
+    url = "https://github.com/aspect-build/rules_js/releases/download/v1.32.0/rules_js-v1.32.0.tar.gz",
+)
+
+http_archive(
+    name = "aspect_rules_webpack",
+    sha256 = "21a85849d01eebbd0cb0a5c0120eb58e4d3275eda68565918e7c0d84e14d30d9",
+    strip_prefix = "rules_webpack-0.13.0",
+    url = "https://github.com/aspect-build/rules_webpack/releases/download/v0.13.0/rules_webpack-v0.13.0.tar.gz",
+)
+
+http_archive(
+    name = "aspect_rules_ts",
+    sha256 = "4c3f34fff9f96ffc9c26635d8235a32a23a6797324486c7d23c1dfa477e8b451",
+    strip_prefix = "rules_ts-1.4.5",
+    url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.5/rules_ts-v1.4.5.tar.gz",
+)
+http_archive(
+    name = "aspect_rules_swc",
+    sha256 = "b647c7c31feeb7f9330fff08b45f8afe7de674d3a9c89c712b8f9d1723d0c8f9",
+    strip_prefix = "rules_swc-1.0.1",
+    url = "https://github.com/aspect-build/rules_swc/releases/download/v1.0.1/rules_swc-v1.0.1.tar.gz",
+)
+
+http_archive(
+    name = "aspect_rules_jest",
+    sha256 = "098186ffc450f2a604843d8ba14217088a0e259ea6a03294af5360a7f1bcd3e8",
+    strip_prefix = "rules_jest-0.19.5",
+    url = "https://github.com/aspect-build/rules_jest/releases/download/v0.19.5/rules_jest-v0.19.5.tar.gz",
+)
+
+http_archive(
+    name = "rules_oci",
+    sha256 = "21a7d14f6ddfcb8ca7c5fc9ffa667c937ce4622c7d2b3e17aea1ffbc90c96bed",
+    strip_prefix = "rules_oci-1.4.0",
+    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.4.0/rules_oci-v1.4.0.tar.gz",
+)
+
+
+
+
+### external repos end
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+bazel_skylib_workspace()
+
+load("@aspect_bazel_lib//lib:repositories.bzl", "aspect_bazel_lib_dependencies")
+aspect_bazel_lib_dependencies()
+
+load("@rules_cc//cc:repositories.bzl", "rules_cc_dependencies", "rules_cc_toolchains")
+
+rules_cc_dependencies()
+rules_cc_toolchains()
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-
-############################################################
-# Define your own dependencies here using go_repository.
-# Else, dependencies declared by rules_go/gazelle will be used.
-# The first declaration of an external repository "wins".
-############################################################
 
 go_rules_dependencies()
 
 go_register_toolchains(version = "1.20.4")
 
 gazelle_dependencies()
-
-
 
 #http_archive(
 #    name = "remotejdk11_linux",
@@ -106,7 +200,6 @@ gazelle_dependencies()
 #)
 
 ### jsonnet start
-
 go_repository(
     name = "com_github_fatih_color",
 #    build_external = "external",
@@ -115,32 +208,12 @@ go_repository(
     version = "v1.12.0",
 )
 
-http_archive(
-    name = "io_bazel_rules_jsonnet",
-    sha256 = "d20270872ba8d4c108edecc9581e2bb7f320afab71f8caa2f6394b5202e8a2c3",
-    strip_prefix = "rules_jsonnet-0.4.0",
-    urls = ["https://github.com/bazelbuild/rules_jsonnet/archive/0.4.0.tar.gz"],
-)
-
-
-CPP_JSONNET_SHA256 = "af7c9c102daab64de39fe9e479acc7389b8dd2d0647c2f9c6abc9c429070b0b8"
-CPP_JSONNET_GITHASH = "813c7412d1c7a42737724d011618d0fd7865bc69"
-
-http_archive(
-    name = "cpp_jsonnet",
-    sha256 = CPP_JSONNET_SHA256,
-    strip_prefix = "jsonnet-%s" % CPP_JSONNET_GITHASH,
-    urls = ["https://github.com/google/jsonnet/archive/%s.tar.gz" % CPP_JSONNET_GITHASH],
-)
-
 go_repository(
         name = "com_github_davecgh_go_spew",
         importpath = "github.com/davecgh/go-spew",
         sum = "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
         version = "v1.1.1",
 )
-
-
 
 go_repository(
     name = "com_github_kr_pretty",
@@ -247,40 +320,7 @@ go_repository(
     sum = "h1:2sjJmO8cDvYveuX97RDLsxlyUxLl+GHoLxBiRdHllBE=",
     version = "v0.9.0",
 )
-
-http_archive(
-    name = "jsonnet",
-    sha256 = "85c240c4740f0c788c4d49f9c9c0942f5a2d1c2ae58b2c71068107bc80a3ced4",
-    strip_prefix = "jsonnet-0.18.0",
-    urls = [
-        "https://github.com/google/jsonnet/archive/v0.18.0.tar.gz",
-    ],
-)
-
-http_archive(
-    name = "google_jsonnet_go",
-    sha256 = "20fdb3599c2325fb11a63860e7580705590faf732abf47ed144203715bd03a70",
-    strip_prefix = "go-jsonnet-0d78479d37eabd9451892dd02be2470145b4d4fa",
-    urls = ["https://github.com/google/go-jsonnet/archive/0d78479d37eabd9451892dd02be2470145b4d4fa.tar.gz"],
-)
-### jsonnet end
-
-
-
-
 ## jvm
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-RULES_JVM_EXTERNAL_TAG = "4.5"
-RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
-
-http_archive(
-    name = "rules_jvm_external",
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
-    sha256 = RULES_JVM_EXTERNAL_SHA,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
-)
-
 load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
 
 rules_jvm_external_deps()
@@ -290,6 +330,8 @@ load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
 rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
+load("@rules_jvm_external//:specs.bzl", "maven")
+
 
 SPRING_BOOT_VERSION = "3.1.0"
 SPRING_VERSION = "6.0.9"
@@ -325,8 +367,20 @@ maven_install(
         "org.springframework:spring-core:%s" % SPRING_VERSION,
         "org.springframework:spring-orm:%s" % SPRING_VERSION,
         "org.springframework:spring-tx:%s" % SPRING_VERSION,
+        "io.github.lognet:grpc-spring-boot-starter:%s" % "5.1.5",
         "jakarta.servlet:jakarta.servlet-api:6.0.0",
         'javax.annotation:javax.annotation-api:1.3.2',
+        maven.artifact(
+                    group = "io.grpc",
+                    artifact = "grpc-util",
+                    version = "1.58.0",
+                    exclusions = [
+                        maven.exclusion(
+                            group = "io.grpc",
+                            artifact = "grpc-core"
+                        ),
+                    ]
+                ),
 
         # security
         'org.apache.shiro:shiro-core:%s' % SHIRO_VERSION,
@@ -398,6 +452,7 @@ maven_install(
         "io.ebean:jakarta-persistence-api",
     ],
     fetch_sources = True,
+     generate_compat_repositories = True,
     maven_install_json = "//:maven_install.json",
     repositories = [
 #        "https://oss.sonatype.org/content/repositories/releases/",
@@ -407,53 +462,12 @@ maven_install(
     version_conflict_policy = "pinned",
 )
 
+load("@maven//:compat.bzl", "compat_repositories")
+
+compat_repositories()
 load("@maven//:defs.bzl", "pinned_maven_install")
-
 pinned_maven_install()
-# jvm end
 
-
-
-## nodejs start
-node_version = "16.14.2"
-http_archive(
-    name = "rules_nodejs",
-    sha256 = "764a3b3757bb8c3c6a02ba3344731a3d71e558220adcb0cf7e43c9bba2c37ba8",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.2/rules_nodejs-core-5.8.2.tar.gz"],
-)
-http_archive(
-    name = "aspect_rules_js",
-    sha256 = "bdbd6df52fc7963f55281fe0a140e21de8ec587ab711a8a2fff0715b6710a4f8",
-    strip_prefix = "rules_js-1.32.0",
-    url = "https://github.com/aspect-build/rules_js/releases/download/v1.32.0/rules_js-v1.32.0.tar.gz",
-)
-
-http_archive(
-    name = "aspect_rules_webpack",
-    sha256 = "21a85849d01eebbd0cb0a5c0120eb58e4d3275eda68565918e7c0d84e14d30d9",
-    strip_prefix = "rules_webpack-0.13.0",
-    url = "https://github.com/aspect-build/rules_webpack/releases/download/v0.13.0/rules_webpack-v0.13.0.tar.gz",
-)
-
-http_archive(
-    name = "aspect_rules_ts",
-    sha256 = "4c3f34fff9f96ffc9c26635d8235a32a23a6797324486c7d23c1dfa477e8b451",
-    strip_prefix = "rules_ts-1.4.5",
-    url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.5/rules_ts-v1.4.5.tar.gz",
-)
-http_archive(
-    name = "aspect_rules_swc",
-    sha256 = "b647c7c31feeb7f9330fff08b45f8afe7de674d3a9c89c712b8f9d1723d0c8f9",
-    strip_prefix = "rules_swc-1.0.1",
-    url = "https://github.com/aspect-build/rules_swc/releases/download/v1.0.1/rules_swc-v1.0.1.tar.gz",
-)
-
-http_archive(
-    name = "aspect_rules_jest",
-    sha256 = "098186ffc450f2a604843d8ba14217088a0e259ea6a03294af5360a7f1bcd3e8",
-    strip_prefix = "rules_jest-0.19.5",
-    url = "https://github.com/aspect-build/rules_jest/releases/download/v0.19.5/rules_jest-v0.19.5.tar.gz",
-)
 
 load("@aspect_rules_webpack//webpack:dependencies.bzl", "rules_webpack_dependencies")
 rules_webpack_dependencies()
@@ -461,8 +475,6 @@ load("@aspect_rules_swc//swc:dependencies.bzl", "rules_swc_dependencies")
 rules_swc_dependencies()
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 rules_js_dependencies()
-
-
 
 # Fetches a SWC cli from
 # https://github.com/swc-project/swc/releases
@@ -545,19 +557,9 @@ npm_repositories()
 
 
 ## python start
-
-http_archive(
-    name = "rules_python",
-    sha256 = "a644da969b6824cc87f8fe7b18101a8a6c57da5db39caa6566ec6109f37d2141",
-    strip_prefix = "rules_python-0.20.0",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.20.0/rules_python-0.20.0.tar.gz",
-)
-
 load("@rules_python//python:repositories.bzl", "py_repositories")
 
-
 py_repositories()
-
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 
 python_register_toolchains(
@@ -586,12 +588,6 @@ install_deps()
 
 
 ## rule_oci start
-http_archive(
-    name = "rules_oci",
-    sha256 = "21a7d14f6ddfcb8ca7c5fc9ffa667c937ce4622c7d2b3e17aea1ffbc90c96bed",
-    strip_prefix = "rules_oci-1.4.0",
-    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.4.0/rules_oci-v1.4.0.tar.gz",
-)
 
 load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
 
@@ -626,4 +622,3 @@ oci_pull(
     ],
 )
 
-## rule_docker end

@@ -42,8 +42,9 @@ public class AccountController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
-            return ResponseEntity.ok().header("jwt", "" + subject.getSession().getId()).build();
+            return ResponseEntity.ok().header("token", "" + subject.getSession().getId()).build();
         } catch (IncorrectCredentialsException | UnknownAccountException e) {
+            logger.warn("login error,username:{}", username);
             throw new AuthenticationException();
         }
 

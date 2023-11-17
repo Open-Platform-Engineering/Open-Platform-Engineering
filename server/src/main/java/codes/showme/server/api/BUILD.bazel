@@ -4,6 +4,7 @@ java_library(
     name = "event2_request",
     srcs = glob(["*.java"]),
     deps = [
+        "@maven//:org_apache_shiro_shiro_core",
         "@maven//:com_fasterxml_jackson_core_jackson_annotations",
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
         "@maven//:com_google_guava_guava",

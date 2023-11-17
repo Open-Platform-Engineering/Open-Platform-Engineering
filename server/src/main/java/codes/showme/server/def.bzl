@@ -8,6 +8,7 @@ common_deps = [
         "//server/src/main/java/codes/showme/server/account:account_rest",
         "@maven//:org_springframework_boot_spring_boot_starter_thymeleaf",
         "//server/src/main/java/codes/showme/server/auth",
+        "//server/src/main/java/codes/showme/server/api:event2_request",
         "//tech-lib:ioc",
         "//spring-ioc-impl:ioc-instance-provider-spring-impl",
         "//tech-lib:email",

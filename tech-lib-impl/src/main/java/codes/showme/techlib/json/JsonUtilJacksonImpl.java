@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class JsonServiceJacksonImpl implements JsonService {
-    private static final Logger logger = LoggerFactory.getLogger(JsonServiceJacksonImpl.class);
+public class JsonUtilJacksonImpl implements codes.showme.techlib.json.JsonUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JsonUtilJacksonImpl.class);
 
     @Override
     public Map<String, Object> toMap(Object object) {

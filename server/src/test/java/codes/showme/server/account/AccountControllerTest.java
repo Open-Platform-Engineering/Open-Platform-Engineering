@@ -4,7 +4,7 @@ import codes.showme.server.AbstractIntegrationTest;
 import codes.showme.server.Main;
 import codes.showme.server.api.EnqueueController;
 import codes.showme.techlib.cache.CacheService;
-import codes.showme.techlib.json.JsonServiceJacksonImpl;
+import codes.showme.techlib.json.JsonUtilJacksonImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +57,14 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new JsonServiceJacksonImpl().toJsonString(signUpReq))
+                        .content(new JsonUtilJacksonImpl().toJsonString(signUpReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isUnauthorized());
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_UP)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new JsonServiceJacksonImpl().toJsonString(signUpReq))
+                        .content(new JsonUtilJacksonImpl().toJsonString(signUpReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
@@ -83,7 +83,7 @@ public class AccountControllerTest extends AbstractIntegrationTest {
         incorrectSignInReq.setPassword("123");
         MockHttpServletResponse signResp = mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_IN)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new JsonServiceJacksonImpl().toJsonString(incorrectSignInReq))
+                        .content(new JsonUtilJacksonImpl().toJsonString(incorrectSignInReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isUnauthorized()).andReturn().getResponse();

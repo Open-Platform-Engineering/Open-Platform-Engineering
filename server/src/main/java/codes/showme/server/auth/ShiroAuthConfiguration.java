@@ -2,18 +2,30 @@ package codes.showme.server.auth;
 
 import codes.showme.techlib.hash.HashService;
 import codes.showme.techlib.hash.HashServiceImpl;
+import jakarta.servlet.DispatcherType;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.DelegatingFilterProxy;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class ShiroAuthConfiguration {
@@ -33,14 +45,19 @@ public class ShiroAuthConfiguration {
     }
 
     @Bean
-    public SecurityManager securityManager() {
-        ShiroRealm singleRealm = new ShiroRealm();
+    public DefaultWebSecurityManager defaultWebSecurityManager() {
+        UsernamePasswordShiroRealm singleRealm = new UsernamePasswordShiroRealm();
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher(getAlgorithmName());
         hashedCredentialsMatcher.setHashIterations(getPasswordHashIterations());
         singleRealm.setCredentialsMatcher(hashedCredentialsMatcher);
-        DefaultWebSecurityManager result = new DefaultWebSecurityManager(singleRealm);
-        DefaultSessionManager sessionManager = new DefaultSessionManager();
-        result.setSessionManager(sessionManager);
+        DefaultWebSecurityManager result = new DefaultWebSecurityManager();
+        result.setAuthenticator(modularRealmAuthenticator());
+        List<Realm> realms = new ArrayList<>(2);
+        realms.add(singleRealm);
+        realms.add(new TokenShiroRealm());
+        result.setRealms(realms);
+
+        result.setSessionManager(new CodePlanetSessionManager());
         SecurityUtils.setSecurityManager(result);
         return result;
     }
@@ -51,20 +68,48 @@ public class ShiroAuthConfiguration {
     }
 
     @Bean
+    public ModularRealmAuthenticator modularRealmAuthenticator() {
+        CustomModularRealmAuthenticator authenticator = new CustomModularRealmAuthenticator();
+        authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+        return authenticator;
+    }
+
+    @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-
-        // logged in users with the 'document:read' permission
-        chainDefinition.addPathDefinition("/v1/sign-in", "anon");
-        chainDefinition.addPathDefinition("/v1/sign-up", "anon");
-        chainDefinition.addPathDefinition("/v1/sign-out", "authc");
-        chainDefinition.addPathDefinition("/v1/sign/up/email/validate", "anon");
-        chainDefinition.addPathDefinition("/v2/enqueue", "anon");
-
-        // all other paths require a logged in user
-        chainDefinition.addPathDefinition("/**", "authc");
+        Map<String, String> filterChainDefinitions = new LinkedHashMap<>();
+        filterChainDefinitions.put("/v1/sign-in", "anon");
+        filterChainDefinitions.put("/v1/sign-up", "anon");
+        filterChainDefinitions.put("/v1/sign/up/email/validate", "anon");
+        filterChainDefinitions.put("/**", "token");
+        chainDefinition.addPathDefinitions(filterChainDefinitions);
         return chainDefinition;
+    }
+
+//    @Bean
+//    public FilterRegistrationBean registerJwtFilter(@Autowired TokenFilter jwtFilter) {
+//        // 设置jwt filter不自动注册到spring管理的监听器中，防止与shiro filter同级，导致该监听器必定执行
+//        FilterRegistrationBean<TokenFilter> jwtFilterRegister = new FilterRegistrationBean<>(jwtFilter);
+//        jwtFilterRegister.setEnabled(false);
+//
+//        return jwtFilterRegister;
+//    }
+
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean result = new ShiroFilterFactoryBean();
+        result.setSecurityManager(securityManager);
+        result.setLoginUrl("login");
+        result.setSuccessUrl("system");
+        result.setUnauthorizedUrl("/error?code=403");
+
+        Map<String, Filter> filtersMap = new LinkedHashMap<>();
+        filtersMap.put("token", new TokenFilter());
+        result.setFilters(filtersMap);
+
+        result.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
+
+        return result;
     }
 
     public byte getRandomSaltNum() {

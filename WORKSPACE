@@ -338,7 +338,7 @@ SPRING_VERSION = "6.0.9"
 HBERNATE_VERSION = "6.2.0.Final"
 JACKSON_VERSION = "2.15.2"
 EBEAN_VERSION = "13.23.2-jakarta"
-SHIRO_VERSION = "1.12.0"
+SHIRO_VERSION = "1.13.0"
 maven_install(
     artifacts = [
         # 日志
@@ -391,6 +391,9 @@ maven_install(
         'org.apache.shiro:shiro-spring-boot-web-starter:%s' % SHIRO_VERSION,
         'org.apache.shiro:shiro-spring:%s' % SHIRO_VERSION,
         'org.aspectj:aspectjweaver:1.9.20.1',
+        'com.auth0:java-jwt:4.4.0',
+        "org.springframework.boot:spring-boot-starter-security:%s" % SPRING_BOOT_VERSION,
+
 
         # persistence
         "org.hibernate.validator:hibernate-validator:8.0.1.Final",

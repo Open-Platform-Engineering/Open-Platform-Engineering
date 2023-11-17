@@ -3,7 +3,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "json",
-    srcs = ["src/main/java/codes/showme/techlib/json/JsonService.java"],
+    srcs = ["src/main/java/codes/showme/techlib/json/JsonUtil.java"],
     deps = [
     ],
 )

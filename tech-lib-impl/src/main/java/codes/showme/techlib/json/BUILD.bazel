@@ -3,7 +3,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "json",
-    srcs = ["JsonServiceJacksonImpl.java"],
+    srcs = ["JsonUtilJacksonImpl.java"],
     deps = [
         "//tech-lib:json",
         "@maven//:com_fasterxml_jackson_core_jackson_core",

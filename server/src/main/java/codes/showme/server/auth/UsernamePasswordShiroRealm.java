@@ -2,10 +2,7 @@ package codes.showme.server.auth;
 
 import codes.showme.domain.team.Account;
 import codes.showme.techlib.ioc.InstanceFactory;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -19,9 +16,15 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 
-public class ShiroRealm extends AuthorizingRealm {
+public class UsernamePasswordShiroRealm extends AuthorizingRealm {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
+    private static final Logger logger = LoggerFactory.getLogger(UsernamePasswordShiroRealm.class);
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof UsernamePasswordToken;
+    }
+
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {

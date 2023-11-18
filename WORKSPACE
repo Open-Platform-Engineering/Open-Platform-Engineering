@@ -351,7 +351,7 @@ maven_install(
         "org.springframework.boot:spring-boot-configuration-processor:%s" % SPRING_BOOT_VERSION,
         "org.springframework.data:spring-data-jpa:%s" % "3.1.0",
         "org.springframework.boot:spring-boot-test-autoconfigure:%s" % SPRING_BOOT_VERSION,
-        "javax.servlet:javax.servlet-api:%s" % "3.1.0",
+#        "javax.servlet:javax.servlet-api:%s" % "3.1.0",
         "org.springframework.boot:spring-boot-starter-test:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-validation:%s" % SPRING_BOOT_VERSION,
         "org.springframework.boot:spring-boot-starter-data-jpa:%s" % SPRING_BOOT_VERSION,
@@ -393,6 +393,10 @@ maven_install(
         'org.aspectj:aspectjweaver:1.9.20.1',
         'com.auth0:java-jwt:4.4.0',
         "org.springframework.boot:spring-boot-starter-security:%s" % SPRING_BOOT_VERSION,
+        'org.springframework.security:spring-security-web:%s' % "6.1.0",
+        'org.springframework.security:spring-security-config:%s' % "6.1.0",
+        'org.springframework.security:spring-security-core:%s' % "6.1.0",
+        'org.springframework.security:spring-security-crypto:%s' % "6.1.0",
 
 
         # persistence
@@ -624,4 +628,18 @@ oci_pull(
         "linux/arm64",
     ],
 )
+
+
+http_archive(
+    name = "rules_proto",
+    sha256 = "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd",
+    strip_prefix = "rules_proto-5.3.0-21.7",
+    urls = [
+        "https://github.com/bazelbuild/rules_proto/archive/refs/tags/5.3.0-21.7.tar.gz",
+    ],
+)
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
 

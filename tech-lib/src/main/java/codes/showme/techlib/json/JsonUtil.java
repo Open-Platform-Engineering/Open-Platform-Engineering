@@ -9,6 +9,8 @@ public interface JsonUtil {
 
     String toJsonString(Object object);
 
+    <T> T toObject(String str, Class<T> clasz);
+
     class JsonProcessingException extends RuntimeException {
         public JsonProcessingException(Throwable cause) {
             super(cause);

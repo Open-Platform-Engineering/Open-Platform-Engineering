@@ -1,6 +1,7 @@
 package codes.showme.server;
 
-import codes.showme.server.auth.UnverifiedEmailAccountException;
+import codes.showme.server.account.exceptions.AccountNotFoundException;
+import codes.showme.server.account.exceptions.UnverifiedEmailAccountException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-
-    @ExceptionHandler(UnverifiedEmailAccountException.class)
+    @ExceptionHandler({UnverifiedEmailAccountException.class, AccountNotFoundException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<?> notVerifiedEmailException(UnverifiedEmailAccountException ex, HttpServletRequest request) {
         List<String> errors = new ArrayList<>();

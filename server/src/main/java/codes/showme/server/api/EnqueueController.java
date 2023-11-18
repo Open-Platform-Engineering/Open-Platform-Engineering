@@ -16,11 +16,6 @@ public class EnqueueController {
      */
     @GetMapping("/v2/enqueue")
     public String enqueue(IncidentReq incidentReq) {
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.isAuthenticated()) {
-            return "not login";
-        } else {
-            return "hello";
-        }
+        return "hello";
     }
 }

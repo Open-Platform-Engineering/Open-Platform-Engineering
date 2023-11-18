@@ -1,0 +1,8 @@
+package(default_visibility = ["//server:__subpackages__"])
+
+java_library(
+    name = "exceptions",
+    srcs = ["UnverifiedEmailAccountException.java","AccountNotFoundException.java"],
+    deps = [
+    ],
+)

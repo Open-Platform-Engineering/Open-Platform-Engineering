@@ -2,19 +2,19 @@ package codes.showme.server.account;
 
 import codes.showme.domain.team.Account;
 import codes.showme.domain.team.AccountSignUpEvent;
+import codes.showme.server.account.authentication.Token;
 import codes.showme.techlib.ioc.InstanceFactory;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,18 +35,21 @@ public class AccountController {
     }
 
     @RequestMapping(value = API_URI_SIGN_IN, method = RequestMethod.POST)
-    public ResponseEntity<?> signIn(@Valid @RequestBody SignInReq signInReq) {
-        Subject subject = SecurityUtils.getSubject();
+    public ResponseEntity<?> signIn(@Valid @RequestBody SignInReq signInReq, HttpServletRequest request,
+                                    HttpServletResponse response) {
         String username = signInReq.getEmail();
         String password = signInReq.getPassword();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            subject.login(token);
-            return ResponseEntity.ok().header("token", "" + subject.getSession().getId()).build();
-        } catch (IncorrectCredentialsException | UnknownAccountException e) {
-            logger.warn("login error,username:{}", username);
-            throw new AuthenticationException();
-        }
+
+        AuthenticationManager authenticationManager = InstanceFactory.getInstance(AuthenticationManager.class);
+        SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        ));
+        String remoteAddr = request.getRemoteAddr();
+
+        Token token = new Token(username, remoteAddr);
+        String value = token.saveWithExpiredSeconds(60 * 60 * 24);
+
+        return ResponseEntity.ok().header("token", value).build();
 
     }
 
@@ -62,13 +65,14 @@ public class AccountController {
 
     @RequestMapping(value = API_URI_SIGN_OUT, method = RequestMethod.POST)
     public ResponseEntity<?> signOut() {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
+//        Subject subject = SecurityUtils.getSubject();
+//        if (subject.isAuthenticated()) {
+//            subject.logout();
+//            return new ResponseEntity<>(null, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+//        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
 }

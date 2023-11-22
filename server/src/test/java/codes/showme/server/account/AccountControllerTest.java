@@ -57,7 +57,6 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new JsonUtilJacksonImpl().toJsonString(signUpReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isUnauthorized());

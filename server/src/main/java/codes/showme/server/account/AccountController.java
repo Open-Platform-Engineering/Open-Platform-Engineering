@@ -72,7 +72,8 @@ public class AccountController {
 //        } else {
 //            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 //        }
-        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+//        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(401).build();
     }
 
 }

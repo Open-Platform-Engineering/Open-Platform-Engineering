@@ -1,6 +1,7 @@
 package codes.showme.server.springSecurity;
 
-import codes.showme.server.account.authentication.TokenKeyGenerator;
+import codes.showme.server.account.authentication.TokenRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {"/v1/sign-in", "/v1/sign-up", "/v1/sign/up/email/validate"};
+    @Value("${codeplanet.auth.tokenCacheSeconds}")
+    public int tokenCacheSeconds;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -57,11 +60,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public TokenKeyGenerator tokenGenerator(){
-        return new TokenGeneratorImpl();
-    }
-
-    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
@@ -72,5 +70,20 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(authenticationProvider());
+    }
+
+    @Bean
+    public TokenRepository tokenCachedManage() {
+        TokenRepositoryImpl tokenCachedManager = new TokenRepositoryImpl();
+        tokenCachedManager.setTokenCacheSeconds(getTokenCacheSeconds());
+        return tokenCachedManager;
+    }
+
+    public int getTokenCacheSeconds() {
+        return tokenCacheSeconds;
+    }
+
+    public void setTokenCacheSeconds(int tokenCacheSeconds) {
+        this.tokenCacheSeconds = tokenCacheSeconds;
     }
 }

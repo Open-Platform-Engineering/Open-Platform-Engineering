@@ -7,6 +7,7 @@ java_library(
     deps = [
         "//tech-lib:ioc",
         "//tech-lib:hash",
+        "//tech-lib:json",
         "//tech-lib:cache",
         "//server/src/main/java/codes/showme/server/account/authentication:authentication",
         "//tech-lib-impl/src/main/java/codes/showme/techlib/hash:HashServiceImpl",

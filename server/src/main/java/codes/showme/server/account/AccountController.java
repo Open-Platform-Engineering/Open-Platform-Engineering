@@ -3,6 +3,7 @@ package codes.showme.server.account;
 import codes.showme.domain.team.Account;
 import codes.showme.domain.team.AccountSignUpEvent;
 import codes.showme.server.account.authentication.Token;
+import codes.showme.server.account.authentication.TokenRepository;
 import codes.showme.techlib.ioc.InstanceFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,16 +42,17 @@ public class AccountController {
         String password = signInReq.getPassword();
 
         AuthenticationManager authenticationManager = InstanceFactory.getInstance(AuthenticationManager.class);
-        SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        ));
+        SecurityContextHolder.getContext().setAuthentication(
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(username, password)
+                )
+        );
         String remoteAddr = request.getRemoteAddr();
 
         Token token = new Token(username, remoteAddr);
-        String value = token.saveWithExpiredSeconds(60 * 60 * 24);
+        String cacheKey = token.save();
 
-        return ResponseEntity.ok().header("token", value).build();
-
+        return ResponseEntity.ok().header("token", cacheKey).build();
     }
 
     @RequestMapping(value = API_URI_SIGNUP_EMAIL_VALIDATE, method = RequestMethod.GET)

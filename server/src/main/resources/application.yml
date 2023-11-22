@@ -23,6 +23,8 @@ server:
   port: 8080
 
 codeplanet:
+  auth:
+    tokenCacheSeconds: 606024
   db:
     writeonly:
       url: jdbc:postgresql://localhost:5438/postgres

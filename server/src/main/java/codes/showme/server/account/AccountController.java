@@ -38,30 +38,29 @@ public class AccountController {
     @RequestMapping(value = API_URI_SIGN_IN, method = RequestMethod.POST)
     public ResponseEntity<?> signIn(@Valid @RequestBody SignInReq signInReq, HttpServletRequest request,
                                     HttpServletResponse response) {
-        String username = signInReq.getEmail();
+        String email = signInReq.getEmail();
         String password = signInReq.getPassword();
 
         AuthenticationManager authenticationManager = InstanceFactory.getInstance(AuthenticationManager.class);
         SecurityContextHolder.getContext().setAuthentication(
                 authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(username, password)
+                        new UsernamePasswordAuthenticationToken(email, password)
                 )
         );
         String remoteAddr = request.getRemoteAddr();
 
-        Token token = new Token(username, remoteAddr);
+        Token token = new Token(email, remoteAddr);
         String cacheKey = token.save();
 
-        return ResponseEntity.ok().header("token", cacheKey).build();
+        return ResponseEntity.ok().header("token", cacheKey).header("email", email).build();
     }
 
-    @RequestMapping(value = API_URI_SIGNUP_EMAIL_VALIDATE, method = RequestMethod.GET)
-    public ResponseEntity<?> signUpValidateEmail(@RequestParam("code") String code,
-                                                 @Email @RequestParam("email") String email) {
+    @RequestMapping(value = API_URI_SIGNUP_EMAIL_VALIDATE, method = RequestMethod.POST)
+    public ResponseEntity<?> signUpValidateEmail(@Valid @RequestBody EmailValidationReq req) {
         AccountSignUpEvent accountSignUpEvent = InstanceFactory.getInstance(AccountSignUpEvent.class);
-        boolean pass = accountSignUpEvent.validateEmail(email, code);
+        boolean pass = accountSignUpEvent.validateEmail(req.getEmail(), req.getCode());
         HttpStatus status = pass ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
-        logger.info("account signUpValidateEmail :{},email:{}, status:{}", code, email, status);
+        logger.info("account signUpValidateEmail :{},email:{}, status:{}", req.getCode(), req.getEmail(), status);
         return new ResponseEntity<>(null, status);
     }
 

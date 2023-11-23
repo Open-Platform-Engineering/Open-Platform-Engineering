@@ -70,23 +70,28 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
         String code = cacheService.getValue(email);
 
-        mvc.perform(MockMvcRequestBuilders.get(AccountController.API_URI_SIGNUP_EMAIL_VALIDATE)
-                .param("code", code).param("email", email).accept(MediaType.APPLICATION_JSON)
+        EmailValidationReq emailValidationReq = new EmailValidationReq();
+        emailValidationReq.setCode(code);
+        emailValidationReq.setEmail(email);
+        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGNUP_EMAIL_VALIDATE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new JsonUtilJacksonImpl().toJsonString(emailValidationReq)).accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
 
         assertNull(cacheService.getValue(email));
 
 
-        SignInReq incorrectSignInReq = new SignInReq();
-        incorrectSignInReq.setEmail(email);
-        incorrectSignInReq.setPassword("123");
+        SignInReq signInReq = new SignInReq();
+        signInReq.setEmail(email);
+        signInReq.setPassword(password);
         MockHttpServletResponse signResp = mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_IN)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new JsonUtilJacksonImpl().toJsonString(incorrectSignInReq))
+                        .content(new JsonUtilJacksonImpl().toJsonString(signInReq))
                         .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isUnauthorized()).andReturn().getResponse();
+                .andExpect(status().isOk()).andReturn().getResponse();
 
+        assertNotNull(signResp.getHeader("token"));
 
 //        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
 //                        .contentType(MediaType.APPLICATION_JSON)

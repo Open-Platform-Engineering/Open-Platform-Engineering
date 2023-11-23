@@ -6,11 +6,16 @@ import codes.showme.techlib.cache.CacheService;
 import codes.showme.techlib.ioc.InstanceFactory;
 import codes.showme.techlib.json.JsonUtil;
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class TokenRepositoryImpl implements TokenRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(TokenRepositoryImpl.class);
+
     private static final String TOKEN_CACHE_KEY_PREFIX = "code_planet_account_token_";
 
     public int tokenCacheSeconds;
@@ -33,7 +38,8 @@ public class TokenRepositoryImpl implements TokenRepository {
         String tokenKey = generateKey();
         String cacheKey = getCacheKey(tokenKey);
         cacheService.cache(cacheKey, value, getTokenCacheSeconds());
-        return cacheKey;
+        logger.info("cache tokenKey:{}, cacheKey:{},email:{}", token.getEmail());
+        return tokenKey;
     }
 
     @Override

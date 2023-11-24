@@ -1,10 +1,7 @@
 package codes.showme.domain.platform;
 
 import codes.showme.domain.platform.scheduledaction.ScheduledActionList;
-import codes.showme.domain.tenant.TenantAbility;
-import codes.showme.domain.tenant.UserContext;
 import codes.showme.techlib.ioc.InstanceFactory;
-import codes.showme.techlib.observation.Observation;
 import io.ebean.annotation.DbJson;
 import jakarta.persistence.*;
 import org.slf4j.Logger;
@@ -15,7 +12,7 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "cp_services")
-public class Service extends TenantAbility {
+public class Service {
 
     private static final Logger logger = LoggerFactory.getLogger(Service.class);
 
@@ -97,21 +94,18 @@ public class Service extends TenantAbility {
     private ServiceMaintenanceWindows maintenanceWindows;
 
     public Optional<Ticket> receive(ServiceEvent serviceEvent) {
-        // 是否处理？
         if (!enabled) {
             throw new UnsupportedOperationException();
         }
         try {
-            // 生成ticket
             Ticket ticket = serviceEvent.createTicket(this);
             ticket.save();
 
-            // 触发关联规则
             ticket.triggerNotification();
             return Optional.of(ticket);
         }catch (Exception e){
-            InstanceFactory.getInstance(Observation.class)
-                    .counter("receive.serviceevent","tenant", UserContext.get().getTenantId());
+//            InstanceFactory.getInstance(Observation.class)
+//                    .counter("receive.serviceevent","tenant", UserContext.get().getTenantId());
             logger.error("service receive a event:{}, but got an error", serviceEvent, e);
             return Optional.empty();
         }

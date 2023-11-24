@@ -8,7 +8,7 @@ java_library(
     deps = [
         "//third_party:domain",
         "//tech-lib:pagination",
-        "//core/src/main/java/codes/showme/domain/tenant:tenant"
+#        "//core/src/main/java/codes/showme/domain/tenant:tenant"
     ],
 )
 

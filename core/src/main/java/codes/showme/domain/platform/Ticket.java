@@ -1,6 +1,5 @@
 package codes.showme.domain.platform;
 
-import codes.showme.domain.tenant.TenantAbility;
 import codes.showme.techlib.ioc.InstanceFactory;
 import jakarta.persistence.*;
 
@@ -8,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "cp_tickets")
-public class Ticket extends TenantAbility {
+public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

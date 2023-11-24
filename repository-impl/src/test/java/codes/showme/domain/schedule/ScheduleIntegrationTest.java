@@ -25,7 +25,6 @@ public class ScheduleIntegrationTest extends AbstractIntegrationTest {
     public void save() {
         ScheduleRule scheduleRule = new ScheduleRule();
         scheduleRule.setName("sre");
-        scheduleRule.setTenantId(UUID.randomUUID());
 
         ScheduleLayer scheduleLayer = new ScheduleLayer();
         DailyRotation rotationType = new DailyRotation();
@@ -49,9 +48,9 @@ public class ScheduleIntegrationTest extends AbstractIntegrationTest {
         scheduleRule.addLayer(customLayer);
 
         scheduleRule.save();
-        Assert.assertEquals(1l, scheduleRule.getId().longValue());
+        Assert.assertEquals(1l, scheduleRule.getId());
 
-        Optional<ScheduleRule> result = ScheduleRule.findByIdAndTenantId(1l, scheduleRule.getTenantId());
+        Optional<ScheduleRule> result = ScheduleRule.findById(1l);
         Assert.assertTrue(result.isPresent());
         ScheduleRule scheduleRuleResult = result.get();
         Assert.assertEquals("sre", scheduleRuleResult.getName());

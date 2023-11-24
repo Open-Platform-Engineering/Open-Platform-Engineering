@@ -1,6 +1,5 @@
 package codes.showme.domain.escalation;
 
-import codes.showme.domain.tenant.TenantAbility;
 import codes.showme.techlib.ioc.InstanceFactory;
 import codes.showme.techlib.pagination.Pagination;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,7 +16,7 @@ import java.util.*;
 @Table(name = "cp_escalation_policies")
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EscalationPolicy extends TenantAbility {
+public class EscalationPolicy {
 
     private static final Logger log = LoggerFactory.getLogger(EscalationPolicy.class);
     public static final String COLUMN_CREATED_TIME = "created_time";

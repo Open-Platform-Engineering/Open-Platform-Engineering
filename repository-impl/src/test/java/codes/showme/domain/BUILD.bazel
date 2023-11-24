@@ -13,7 +13,7 @@ java_library(
         "//core/src/main/java/codes/showme/domain/platform:platform",
         "//repository-impl/src/main/java/codes/showme/domain/platform:ServiceRepositoryImpl",
         "//repository-impl/src/main/java/codes/showme/domain/platform:TicketRepositoryImpl",
-
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//third_party:unittest",
         "//third_party:repository",

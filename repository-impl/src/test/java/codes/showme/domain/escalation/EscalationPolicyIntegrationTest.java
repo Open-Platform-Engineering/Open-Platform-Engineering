@@ -27,7 +27,6 @@ public class EscalationPolicyIntegrationTest extends AbstractIntegrationTest {
     public void name() throws IOException {
         EscalationPolicy escalationPolicy = new EscalationPolicy();
         escalationPolicy.addTag("ticket", "12376");
-        escalationPolicy.setTenantId(UUID.randomUUID());
 
         EscalationRule rule = new EscalationRule();
         rule.setEscalatesTimeoutMin(30);
@@ -47,7 +46,6 @@ public class EscalationPolicyIntegrationTest extends AbstractIntegrationTest {
         assertEquals(1l, id);
 
         EscalationPolicy escalationPolicy2 = new EscalationPolicy();
-        escalationPolicy2.setTenantId(UUID.randomUUID());
         escalationPolicy2.save();
         assertEquals(2l, escalationPolicy2.getId().longValue());
 

@@ -1,5 +1,6 @@
 package codes.showme.domain.escalation;
 
+import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;
 import codes.showme.techlib.pagination.Pagination;
 import io.ebean.Database;
@@ -12,14 +13,14 @@ import java.util.List;
 public class EscalationPolicyRepositoryImpl implements EscalationPolicyRepository {
     @Override
     public long save(EscalationPolicy escalationPolicy) {
-        Database instance = InstanceFactory.getInstance(Database.class);
-        instance.save(escalationPolicy);
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+        database.save(escalationPolicy);
         return escalationPolicy.getId();
     }
 
     @Override
     public Pagination<EscalationPolicy> list(int pageIndex, int pageSize) {
-        Database database = InstanceFactory.getInstance(Database.class);
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
         PagedList<EscalationPolicy> pagedList = database.find(EscalationPolicy.class).setFirstRow(pageIndex - 1)
                 .setMaxRows(pageSize).orderBy().desc(EscalationPolicy.COLUMN_CREATED_TIME).findPagedList();
         return new Pagination(pageIndex, pageSize, pagedList.getTotalCount(), pagedList.getList());
@@ -27,7 +28,8 @@ public class EscalationPolicyRepositoryImpl implements EscalationPolicyRepositor
 
     @Override
     public Pagination<EscalationPolicy> listExistsByScheduleTarget(int pageIndex, int pageSize, long scheduleId) {
-        Database database = InstanceFactory.getInstance(Database.class);
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+
 
         PagedList<EscalationPolicy> pagedList = database.find(EscalationPolicy.class)
                 .where()

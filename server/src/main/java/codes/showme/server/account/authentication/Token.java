@@ -25,6 +25,11 @@ public class Token implements Serializable {
         this.remoteAddr = remoteAddr;
     }
 
+    public static void destroyTokenKey(String token) {
+        TokenRepository tokenRepository = InstanceFactory.getInstance(TokenRepository.class);
+        tokenRepository.remove(token);
+    }
+
     public String save() {
         TokenRepository tokenRepository = InstanceFactory.getInstance(TokenRepository.class);
         return tokenRepository.cacheToken(this);

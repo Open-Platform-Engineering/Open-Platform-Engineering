@@ -5,6 +5,7 @@ java_library(
     srcs = ["ServiceRepositoryImpl.java"],
     deps = [
         "//third_party:repository",
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//core/src/main/java/codes/showme/domain/platform:platform",
     ],
@@ -14,6 +15,7 @@ java_library(
     srcs = ["TicketRepositoryImpl.java"],
     deps = [
         "//third_party:repository",
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//core/src/main/java/codes/showme/domain/platform:platform",
     ],

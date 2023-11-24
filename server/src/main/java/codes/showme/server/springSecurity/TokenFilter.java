@@ -43,14 +43,15 @@ public class TokenFilter extends GenericFilterBean {
         Token tokenValue = token.get();
         if (!Strings.isNullOrEmpty(tokenValue.getEmail())) {
             UserDetails userDetails = InstanceFactory.getInstance(UserDetailsService.class).loadUserByUsername(tokenValue.getEmail());
-            if (userDetails.isEnabled()) {
+            if (!userDetails.isEnabled()) {
+                throw new AccessDeniedException("account is unable");
+            } else {
                 return new ApiKeyAuthentication(tokenHeader, AuthorityUtils.NO_AUTHORITIES);
             }
         } else {
             logger.warn("token is incorrect:{}", tokenHeader);
             throw new AccessDeniedException("token is incorrect");
         }
-        return new ApiKeyAuthentication(tokenHeader, AuthorityUtils.NO_AUTHORITIES);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class TokenFilter extends GenericFilterBean {
             }
             Authentication authentication = getAuthentication((HttpServletRequest) request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(request, response);
         } catch (Exception exp) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -73,7 +75,5 @@ public class TokenFilter extends GenericFilterBean {
             writer.flush();
             writer.close();
         }
-
-        chain.doFilter(request, response);
     }
 }

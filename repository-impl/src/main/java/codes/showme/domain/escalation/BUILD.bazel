@@ -6,6 +6,7 @@ java_library(
     deps = [
         "//third_party:repository",
         "//tech-lib:ioc",
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:pagination",
         "//core/src/main/java/codes/showme/domain/escalation:escalation",
     ],

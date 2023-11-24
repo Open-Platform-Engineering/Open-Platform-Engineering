@@ -54,6 +54,13 @@ public class TokenRepositoryImpl implements TokenRepository {
         return Optional.ofNullable(token);
     }
 
+    @Override
+    public void remove(String tokenKey) {
+        CacheService cacheService = InstanceFactory.getInstance(CacheService.class);
+        cacheService.remove(getCacheKey(tokenKey));
+        logger.info("remove tokenKey's cache:{}", tokenKey);
+    }
+
     private static String getCacheKey(String tokenKey) {
         return TOKEN_CACHE_KEY_PREFIX + tokenKey;
     }

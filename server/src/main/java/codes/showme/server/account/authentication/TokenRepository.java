@@ -14,4 +14,6 @@ public interface TokenRepository {
     String cacheToken(Token token);
 
     Optional<Token> getByTokenKey(String tokenKey);
+
+    void remove(String token);
 }

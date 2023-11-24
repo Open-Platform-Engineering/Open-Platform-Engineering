@@ -6,6 +6,7 @@ common_deps = [
         "//core/src/main/java/codes/showme/domain/incident:incident",
         "//core/src/main/java/codes/showme/domain/team",
         "//server/src/main/java/codes/showme/server/account:account_rest",
+        "//server/src/main/java/codes/showme/server/schedule:schedule",
         "//server/src/main/java/codes/showme/server/springSecurity",
         "//server/src/main/java/codes/showme/server/account/exceptions",
         "//server/src/main/java/codes/showme/server/api:event2_request",

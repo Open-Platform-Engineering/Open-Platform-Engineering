@@ -13,7 +13,6 @@ public class SampleServiceEvent implements ServiceEvent{
     public Ticket createTicket(Service service) {
         Ticket result = new Ticket();
         AlertAction alertAction = service.getAlertAction();
-        result.setTenantId(service.getTenantId());
         result.setServiceId(service.getId());
         result.setOpenedTime(new Date());
         result.setStatus(TicketStatus.TRIGGERED);

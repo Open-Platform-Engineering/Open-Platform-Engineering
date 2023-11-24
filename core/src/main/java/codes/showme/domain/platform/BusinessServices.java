@@ -1,6 +1,5 @@
 package codes.showme.domain.platform;
 
-import codes.showme.domain.tenant.TenantAbility;
 import jakarta.persistence.*;
 
 /**
@@ -8,7 +7,7 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "cp_biz_services")
-public class BusinessServices  extends TenantAbility {
+public class BusinessServices {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

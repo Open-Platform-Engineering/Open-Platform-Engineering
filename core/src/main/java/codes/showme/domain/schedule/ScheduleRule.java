@@ -2,7 +2,6 @@ package codes.showme.domain.schedule;
 
 
 import codes.showme.domain.team.Reassignable;
-import codes.showme.domain.tenant.TenantAbility;
 import codes.showme.techlib.ioc.InstanceFactory;
 import io.ebean.annotation.DbJson;
 import jakarta.persistence.*;
@@ -14,16 +13,18 @@ import java.util.UUID;
 
 @Table(name = "cp_schedules")
 @Entity
-public class ScheduleRule extends TenantAbility implements Reassignable {
+public class ScheduleRule implements Reassignable {
 
+    public static final int COLUMN_NAME_LENGTH = 64;
+    public static final int COLUMN_DESCRIPTION_LENGTH = 1024;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = COLUMN_NAME_LENGTH)
     private String name;
 
-    @Column(name = "descr", length = 1024)
+    @Column(name = "descr", length = COLUMN_DESCRIPTION_LENGTH)
     private String description;
 
     /**
@@ -41,9 +42,9 @@ public class ScheduleRule extends TenantAbility implements Reassignable {
     @Column(name = "final_schedule")
     private FinalSchedule finalSchedule;
 
-    public static Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, UUID tenantId) {
+    public static Optional<ScheduleRule> findById(long scheduleId) {
         ScheduleRuleRepository scheduleRuleRepository = InstanceFactory.getInstance(ScheduleRuleRepository.class);
-        return scheduleRuleRepository.findByIdAndTenantId(scheduleId, tenantId);
+        return scheduleRuleRepository.findById(scheduleId);
     }
 
     public ScheduleRule addLayer(ScheduleLayer scheduleLayer) {
@@ -69,11 +70,11 @@ public class ScheduleRule extends TenantAbility implements Reassignable {
         this.description = description;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

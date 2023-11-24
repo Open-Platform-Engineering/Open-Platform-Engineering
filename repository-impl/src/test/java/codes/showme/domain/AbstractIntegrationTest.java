@@ -6,6 +6,7 @@ import codes.showme.domain.platform.ServiceRepository;
 import codes.showme.domain.platform.ServiceRepositoryImpl;
 import codes.showme.domain.platform.TicketRepository;
 import codes.showme.domain.platform.TicketRepositoryImpl;
+import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;
 import codes.showme.techlib.ioc.InstanceProvider;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -74,11 +75,8 @@ public abstract class AbstractIntegrationTest {
         MigrationRunner runner = new MigrationRunner(migrationConfig);
         runner.run(datasource);
 
-        Mockito.when(instanceProvider.getInstance(Database.class)).thenReturn(database);
-        IncidentRepositoryImpl incidentRepository = new IncidentRepositoryImpl();
-        incidentRepository.setDatabase(database);
-        Mockito.when(instanceProvider.getInstance(IncidentRepository.class)).thenReturn(incidentRepository);
-
+        Mockito.when(instanceProvider.getInstance(Database.class, EbeanConfig.BEAN_NAME_WRITE_BEONLY)).thenReturn(database);
+        Mockito.when(instanceProvider.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY)).thenReturn(database);
         InstanceFactory.setInstanceProvider(instanceProvider);
     }
 

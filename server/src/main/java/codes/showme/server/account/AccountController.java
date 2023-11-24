@@ -48,7 +48,6 @@ public class AccountController {
                 )
         );
         String remoteAddr = request.getRemoteAddr();
-
         Token token = new Token(email, remoteAddr);
         String cacheKey = token.save();
 
@@ -65,16 +64,11 @@ public class AccountController {
     }
 
     @RequestMapping(value = API_URI_SIGN_OUT, method = RequestMethod.POST)
-    public ResponseEntity<?> signOut() {
-//        Subject subject = SecurityUtils.getSubject();
-//        if (subject.isAuthenticated()) {
-//            subject.logout();
-//            return new ResponseEntity<>(null, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-//        }
-//        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        return ResponseEntity.status(401).build();
+    public ResponseEntity<?> signOut(HttpServletRequest request,
+                                     HttpServletResponse response) {
+        String token = request.getHeader("token");
+        Token.destroyTokenKey(token);
+        return ResponseEntity.ok().build();
     }
 
 }

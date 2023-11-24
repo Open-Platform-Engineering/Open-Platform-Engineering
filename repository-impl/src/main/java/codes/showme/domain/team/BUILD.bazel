@@ -5,6 +5,7 @@ java_library(
     srcs = ["AccountRepositoryImpl.java"],
     deps = [
         "//third_party:repository",
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//core/src/main/java/codes/showme/domain/team",
         "@maven//:org_slf4j_slf4j_api"

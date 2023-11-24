@@ -9,6 +9,6 @@ java_library(
         "//core/src/main/java/codes/showme/domain/platform/scheduledaction:scheduledaction",
         "//third_party:domain",
         "//tech-lib:observation",
-        "//core/src/main/java/codes/showme/domain/tenant:tenant"
+#        "//core/src/main/java/codes/showme/domain/tenant:tenant"
     ],
 )

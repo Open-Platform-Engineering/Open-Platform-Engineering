@@ -5,6 +5,8 @@ java_library(
     srcs = ["IncidentRepositoryImpl.java"],
     deps = [
         "//third_party:repository",
+        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//core/src/main/java/codes/showme/domain/incident:incident",
+        "//tech-lib:ioc-instance-factory",
     ],
 )

@@ -92,8 +92,8 @@ public class Incident {
     }
 
     public long save() {
-        InstanceFactory.getInstance(IncidentRepository.class).save(this);
-        return id;
+        IncidentRepository repository = InstanceFactory.getInstance(IncidentRepository.class);
+        return repository.save(this);
     }
 
     public Long getId() {

@@ -23,7 +23,6 @@ public class ServiceRepositoryImplTest extends AbstractIntegrationTest {
         ServiceRepositoryImpl serviceRepository = new ServiceRepositoryImpl();
         Mockito.when(instanceProvider.getInstance(ServiceRepository.class)).thenReturn(serviceRepository);
 
-        service.setTenantId(UUID.randomUUID());
         service.setDescription("Random");
         service.setAcknowledgementTimeoutSeconds(3000);
         service.setAutoResolveTimeoutSeconds(60);

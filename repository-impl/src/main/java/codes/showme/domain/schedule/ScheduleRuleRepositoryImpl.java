@@ -1,28 +1,24 @@
 package codes.showme.domain.schedule;
 
-import codes.showme.domain.schedule.ScheduleRule;
-import codes.showme.domain.schedule.ScheduleRuleRepository;
+import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;
 import io.ebean.Database;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class ScheduleRuleRepositoryImpl implements ScheduleRuleRepository {
-
     @Override
     public long save(ScheduleRule scheduleRule) {
-        Database database = InstanceFactory.getInstance(Database.class);
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_WRITE_BEONLY);
         database.save(scheduleRule);
         return scheduleRule.getId();
     }
 
     @Override
-    public Optional<ScheduleRule> findByIdAndTenantId(long scheduleId, UUID tenantId) {
-        Database database = InstanceFactory.getInstance(Database.class);
-        return database.find(ScheduleRule.class).where().eq("id", scheduleId).and().eq(ScheduleRule.COLUMN_TENANT_ID, tenantId).findOneOrEmpty();
+    public Optional<ScheduleRule> findById(long scheduleId) {
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+        return database.find(ScheduleRule.class).where().eq("id", scheduleId).findOneOrEmpty();
     }
 }

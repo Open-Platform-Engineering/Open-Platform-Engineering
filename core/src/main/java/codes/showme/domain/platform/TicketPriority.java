@@ -1,6 +1,5 @@
 package codes.showme.domain.platform;
 
-import codes.showme.domain.tenant.TenantAbility;
 import jakarta.persistence.*;
 
 /**
@@ -8,7 +7,7 @@ import jakarta.persistence.*;
  */
 @Table(name = "cp_ticket_priorities")
 @Entity
-public class TicketPriority extends TenantAbility {
+public class TicketPriority {
     @Id
     @GeneratedValue
     private Long id;

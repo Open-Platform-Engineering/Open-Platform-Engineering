@@ -15,10 +15,9 @@ py_binary(
   srcs = ["app.py"],
   data = glob([
 #      "static/src/*.js",
-      "templates/*.html"]
+      "templates/**/*.html"]
     ),
   deps = [
-      ":todo",
       requirement("Flask"),
 #      requirement("Flask_Assets"),
 #      requirement("webassets"),

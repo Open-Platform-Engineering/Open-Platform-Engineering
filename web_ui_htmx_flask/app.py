@@ -2,7 +2,6 @@
 from flask import Flask, render_template, redirect, request, Response,url_for
 # from flask_assets import Bundle, Environment
 
-from web_ui_htmx_flask.todo import todos
 import requests
 import os
 
@@ -25,6 +24,14 @@ def homepage():
     token = request.cookies.get('token')
     email = request.cookies.get('email')
     return render_template("index.html", email=email)
+
+
+@app.route("/services")
+def services():
+    email = request.cookies.get('email')
+    
+    return render_template("/services/index.html", email=email)
+
 
 
 @app.route("/sign-up/email/vlidation/<email>", methods=["GET"])

@@ -3,6 +3,8 @@ package codes.showme.server.account;
 import codes.showme.server.AbstractIntegrationTest;
 import codes.showme.server.Main;
 import codes.showme.server.api.EnqueueController;
+import codes.showme.server.schedule.CreateReq;
+import codes.showme.server.schedule.ScheduleController;
 import codes.showme.techlib.cache.CacheService;
 import codes.showme.techlib.json.JsonUtilJacksonImpl;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = Main.class,
@@ -54,12 +57,12 @@ public class AccountControllerTest extends AbstractIntegrationTest {
         SignUpReq signUpReq = new SignUpReq();
         signUpReq.setEmail(email);
         signUpReq.setPassword(password);
-
-        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isUnauthorized());
+//
+//        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON)
+//                )
+//                .andExpect(status().isOk());
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_UP)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -93,13 +96,35 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
         assertNotNull(signResp.getHeader("token"));
 
-//        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .cookie(signResp.getCookies())
-//                        .content(new JsonServiceJacksonImpl().toJsonString(signUpReq))
-//                        .accept(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(status().isOk());
+        CreateReq createScheduleReq = new CreateReq();
+        createScheduleReq.setName("newSchdule");
+        createScheduleReq.setDescription("descrition");
+        createScheduleReq.setZoneId("Europe/London");
+        mvc.perform(MockMvcRequestBuilders.post(ScheduleController.URL_CREATE_SCHEDULE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("token", signResp.getHeader("token"))
+                        .content(new JsonUtilJacksonImpl().toJsonString(createScheduleReq))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk()).andExpect(header().string("id", "1"));
+
+
+
+        mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("token", signResp.getHeader("token"))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk());
+
+
+        mvc.perform(MockMvcRequestBuilders.post(ScheduleController.URL_CREATE_SCHEDULE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("token", signResp.getHeader("token"))
+                        .content(new JsonUtilJacksonImpl().toJsonString(createScheduleReq))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isUnauthorized());
 
     }
 

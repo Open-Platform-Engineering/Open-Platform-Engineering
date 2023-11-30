@@ -1,5 +1,6 @@
 package codes.showme.domain.account;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AccountRepository {
@@ -10,4 +11,6 @@ public interface AccountRepository {
     Optional<Account> findByEmailAndPassword(String email, String password);
 
     Optional<Account> findByEmail(String email);
+
+    List<Account> listInTeams(Long[] id);
 }

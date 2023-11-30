@@ -73,6 +73,9 @@ java_library(
     srcs = [
         "src/main/java/codes/showme/techlib/pagination/Pagination.java",
         "src/main/java/codes/showme/techlib/pagination/PageRequest.java",
+    ],
+    deps = [
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations"
     ]
 )
 

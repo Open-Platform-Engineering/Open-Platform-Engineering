@@ -3,14 +3,14 @@ package codes.showme.domain.account;
 import codes.showme.techlib.ioc.InstanceFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+import io.ebean.annotation.DbArray;
 import io.ebean.annotation.DbJson;
 import jakarta.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 @Entity
@@ -25,6 +25,7 @@ public class Account {
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_PASSWORD_SALT = "password_salt";
+    public static final String COLUMN_TEAMS = "teams";
     @Id
     @GeneratedValue
     private Long id;
@@ -39,7 +40,7 @@ public class Account {
     @Column(name = "display_name", length = 128)
     private String displayName;
 
-    @Column(name = COLUMN_EMAIL, length = COLUMN_EMAIL_LENGTH)
+    @Column(name = COLUMN_EMAIL, length = COLUMN_EMAIL_LENGTH, unique = true)
     private String email;
 
     @Column(name = COLUMN_PASSWORD, length = 256)
@@ -59,6 +60,10 @@ public class Account {
     @JsonProperty("profile")
     private AccountProfile profile;
 
+    @DbArray
+    @Column(name = COLUMN_TEAMS)
+    private Set<Long> teams = Sets.newHashSet();
+
     public static void signUpSuccess(String email) {
         AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
         accountRepository.emailValidated(email);
@@ -75,6 +80,11 @@ public class Account {
         return accountRepository.findByEmailAndPassword(email, password);
     }
 
+    public static List<Account> listInTeams(Long... teamIds) {
+        AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
+        return accountRepository.listInTeams(teamIds);
+    }
+
     public long save() {
         AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
         return accountRepository.save(this);
@@ -89,9 +99,23 @@ public class Account {
         accountSignUpEvent.fired(this);
     }
 
+
+    public void joinTeam(long teamId) {
+        teams.add(teamId);
+        save();
+    }
+
     public void signUp() {
         save();
         signUpEventFired();
+    }
+
+    public Set<Long> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Long> teams) {
+        this.teams = teams;
     }
 
     public int getPasswordHashIterations() {

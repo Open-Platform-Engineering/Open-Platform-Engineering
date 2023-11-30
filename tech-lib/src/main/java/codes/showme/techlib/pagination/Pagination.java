@@ -1,9 +1,12 @@
 package codes.showme.techlib.pagination;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pagination<T> implements Serializable {
     private static final long serialVersionUID = 2373637336667452864L;
 
@@ -46,6 +49,9 @@ public class Pagination<T> implements Serializable {
      * 查询耗时
      */
     private long tookTimeValueMs;
+
+    public Pagination() {
+    }
 
     public Pagination(int pageIndex, int pageSize) {
         this.pageIndex = pageIndex;

@@ -1,11 +1,5 @@
 package codes.showme.domain;
 
-import codes.showme.domain.incident.IncidentRepository;
-import codes.showme.domain.incident.IncidentRepositoryImpl;
-import codes.showme.domain.platform.ServiceRepository;
-import codes.showme.domain.platform.ServiceRepositoryImpl;
-import codes.showme.domain.platform.TicketRepository;
-import codes.showme.domain.platform.TicketRepositoryImpl;
 import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;
 import codes.showme.techlib.ioc.InstanceProvider;
@@ -18,7 +12,6 @@ import io.ebean.config.DatabaseConfig;
 import io.ebean.migration.MigrationConfig;
 import io.ebean.migration.MigrationRunner;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.mockito.Mockito;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -71,7 +64,7 @@ public abstract class AbstractIntegrationTest {
         migrationConfig.setDbSchema("public");
         migrationConfig.setMetaTable("sxs");
         migrationConfig.setMigrationPath("classpath:main/sql");
-//            // run it ...
+        // run it as a mock test...
         MigrationRunner runner = new MigrationRunner(migrationConfig);
         runner.run(datasource);
 

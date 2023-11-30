@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -45,5 +46,12 @@ public class AccountRepositoryImpl implements AccountRepository {
         return database.find(Account.class)
                 .where()
                 .eq(Account.COLUMN_EMAIL, email).findOneOrEmpty();
+    }
+
+    @Override
+    public List<Account> listInTeams(Long[] id) {
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+        return database.find(Account.class)
+                .where().arrayContains(Account.COLUMN_TEAMS,(Object[]) id).findList();
     }
 }

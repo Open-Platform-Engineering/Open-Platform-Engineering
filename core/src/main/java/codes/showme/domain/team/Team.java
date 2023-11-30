@@ -22,7 +22,7 @@ public class Team {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-    @Column(name = "name", length = 125)
+    @Column(name = "name", length = 125, unique = true)
     private String name;
 
     @Column(name = "creator_id")
@@ -68,5 +68,13 @@ public class Team {
 
     public void setCreatorId(long creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

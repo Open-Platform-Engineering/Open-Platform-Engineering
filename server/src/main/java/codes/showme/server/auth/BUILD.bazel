@@ -1,0 +1,9 @@
+package(default_visibility = ["//server:__subpackages__"])
+
+java_library(
+    name = "auth",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//core/src/main/java/codes/showme/domain/account:account"
+    ],
+)

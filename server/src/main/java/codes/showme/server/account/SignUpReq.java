@@ -1,6 +1,6 @@
 package codes.showme.server.account;
 
-import codes.showme.domain.team.Account;
+import codes.showme.domain.account.Account;
 import codes.showme.techlib.hash.HashService;
 import codes.showme.techlib.ioc.InstanceFactory;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

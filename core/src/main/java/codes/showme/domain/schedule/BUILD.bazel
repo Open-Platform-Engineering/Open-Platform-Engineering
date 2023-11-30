@@ -5,6 +5,7 @@ java_library(
     srcs = glob(["*.java"]),
     deps = [
         "//core/src/main/java/codes/showme/domain/team:team",
+        "//core/src/main/java/codes/showme/domain/account:account",
         "//core/src/main/java/codes/showme/domain:utcDateFormat",
         "//third_party:domain",
         "//tech-lib:time",

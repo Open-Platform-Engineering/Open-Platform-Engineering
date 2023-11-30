@@ -26,12 +26,58 @@ def homepage():
     return render_template("index.html", email=email)
 
 
-@app.route("/services")
+@app.route("/services", methods=["GET"])
 def services():
     email = request.cookies.get('email')
     
     return render_template("/services/index.html", email=email)
 
+@app.route("/schedules", methods=["GET"])
+def schedules():
+    email = request.cookies.get('email')
+    return render_template("/schedules/index.html", email=email)
+
+@app.route("/schedules/create", methods=["GET"])
+def schedulesCreate():
+    email = request.cookies.get('email')
+    return render_template("/schedules/craete.html", email=email)
+
+@app.route("/teams", methods=["GET"])
+def teams():
+    email = request.cookies.get('email')
+    res = requests.request(
+        method="get",
+        url=f'{API_HOST}/v1/teams',
+        headers={'Content-type': 'application/json','token': request.cookies['token']},
+        allow_redirects=False,
+    )
+    app.logger.info('team list, status:%d', res.status_code)
+    if res.status_code == 200:
+        return render_template("/teams/index.html", email=email, pagination=res.json())
+    else:
+        return render_template("/teams/index.html", email=email)
+
+@app.route("/teams/create", methods=["GET"])
+def teamsCreate():
+    email = request.cookies.get('email')
+    return render_template("/teams/create.html", email=email)
+
+@app.route("/teams/create", methods=["POST"])
+def teamsCreatePost():
+    name = request.form['name']
+    res = requests.request(
+        method="post",
+        url=f'{API_HOST}/v1/team',
+        headers={'Content-type': 'application/json','token': request.cookies['token']},
+        json={"name":name},
+        allow_redirects=False,
+    )
+    if res.status_code == 200:
+        app.logger.info('team %s created', name)
+        resp = Response(headers={"HX-Redirect":url_for("teams")},status=200,  mimetype="text/plain")
+        return resp
+    else:
+        return Response(body="team create error",status=res.status_code,  mimetype="text/plain")
 
 
 @app.route("/sign-up/email/vlidation/<email>", methods=["GET"])

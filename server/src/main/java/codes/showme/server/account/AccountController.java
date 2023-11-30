@@ -1,14 +1,12 @@
 package codes.showme.server.account;
 
-import codes.showme.domain.team.Account;
-import codes.showme.domain.team.AccountSignUpEvent;
+import codes.showme.domain.account.Account;
+import codes.showme.domain.account.AccountSignUpEvent;
 import codes.showme.server.account.authentication.Token;
-import codes.showme.server.account.authentication.TokenRepository;
 import codes.showme.techlib.ioc.InstanceFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

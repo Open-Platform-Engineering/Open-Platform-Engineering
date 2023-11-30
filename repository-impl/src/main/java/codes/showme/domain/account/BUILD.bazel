@@ -1,14 +1,13 @@
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "TeamRepositoryImpl",
-    srcs = ["TeamRepositoryImpl.java"],
+    name = "AccountRepositoryImpl",
+    srcs = ["AccountRepositoryImpl.java"],
     deps = [
         "//third_party:repository",
         "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
-        "//core/src/main/java/codes/showme/domain/team",
-        "@maven//:org_slf4j_slf4j_api",
-        "//tech-lib:pagination",
+        "//core/src/main/java/codes/showme/domain/account",
+        "@maven//:org_slf4j_slf4j_api"
     ],
 )

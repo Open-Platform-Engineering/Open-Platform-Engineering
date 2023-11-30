@@ -67,6 +67,7 @@ java_test(
     deps = [
         ":ScheduleTestHelper",
         "//core/src/main/java/codes/showme/domain/schedule:schedule",
+        "//core/src/main/java/codes/showme/domain/account:account",
         "//core/src/main/java/codes/showme/domain/notification:notifiedUser",
         "@maven//:com_google_guava_guava",
         "//third_party:unittest",

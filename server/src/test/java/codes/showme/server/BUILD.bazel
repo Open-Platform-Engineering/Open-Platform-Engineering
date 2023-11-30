@@ -12,6 +12,7 @@ java_library(
     ],
     deps = [
         "//core/src/main/java/codes/showme/domain/team",
+        "//core/src/main/java/codes/showme/domain/account",
         "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
         "//tech-lib:ioc",
         "//tech-lib:email",

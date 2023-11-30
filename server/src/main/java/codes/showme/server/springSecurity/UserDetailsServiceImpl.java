@@ -1,17 +1,13 @@
 package codes.showme.server.springSecurity;
 
-import codes.showme.domain.team.Account;
-import codes.showme.domain.team.AccountRepository;
+import codes.showme.domain.account.Account;
 import codes.showme.server.account.exceptions.AccountNotFoundException;
-import codes.showme.techlib.ioc.InstanceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,6 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             logger.warn("account not found:{}", username);
             throw new AccountNotFoundException();
         }
-        return new User(username, account.get().getPassword(), new ArrayList<>());
+        return new CustomAccountUserDetails(account.get());
     }
 }

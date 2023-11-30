@@ -2,11 +2,12 @@ package codes.showme.server;
 
 import codes.showme.server.account.exceptions.AccountNotFoundException;
 import codes.showme.server.account.exceptions.UnverifiedEmailAccountException;
+import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UnverifiedEmailAccountException.class, AccountNotFoundException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<?> notVerifiedEmailException(UnverifiedEmailAccountException ex, HttpServletRequest request) {
+    public ResponseEntity<?> notVerifiedEmailException(Exception ex, HttpServletRequest request) {
         List<String> errors = new ArrayList<>();
 
         errors.add(ex.getMessage());
@@ -34,19 +35,20 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<?> authenticationException(AuthenticationException ex, HttpServletRequest request) {
-        List<String> errors = new ArrayList<>();
+//    @ExceptionHandler(AuthenticationException.class)
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    public ResponseEntity<?> authenticationException(AuthenticationException ex, HttpServletRequest request) {
+//        List<String> errors = new ArrayList<>();
+//
+//        errors.add(ex.getMessage());
+//
+//        Map<String, List<String>> result = new HashMap<>();
+//
+//        result.put("errors", errors);
+//
+//        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+//    }
 
-        errors.add(ex.getMessage());
-
-        Map<String, List<String>> result = new HashMap<>();
-
-        result.put("errors", errors);
-
-        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
-    }
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -62,5 +64,30 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({NullPointerException.class})
+    public ResponseEntity<?> nullException(NullPointerException ex, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
 
+        errors.add("");
+
+        Map<String, List<String>> result = new HashMap<>();
+
+        result.put("errors", errors);
+
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({jakarta.persistence.PersistenceException.class, MissingServletRequestParameterException.class})
+    public ResponseEntity<?> persistenceException(Exception ex, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
+
+        errors.add("");
+
+        Map<String, List<String>> result = new HashMap<>();
+
+        result.put("errors", errors);
+
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -10,6 +10,7 @@ java_library(
         "@maven//:jakarta_persistence_jakarta_persistence_api",
         "//tech-lib:ioc-instance-factory",
         "//core/src/main/java/codes/showme/domain/team:team",
+        "//core/src/main/java/codes/showme/domain/account:account",
     ],
 )
 #

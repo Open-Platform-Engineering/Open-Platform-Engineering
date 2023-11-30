@@ -1,4 +1,4 @@
-package codes.showme.domain.team;
+package codes.showme.domain.account;
 
 import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;

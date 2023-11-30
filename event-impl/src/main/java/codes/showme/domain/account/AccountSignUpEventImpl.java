@@ -1,7 +1,7 @@
 package codes.showme.domain.account;
 
-import codes.showme.domain.team.Account;
-import codes.showme.domain.team.AccountSignUpEvent;
+import codes.showme.domain.account.Account;
+import codes.showme.domain.account.AccountSignUpEvent;
 import codes.showme.techlib.cache.CacheService;
 import codes.showme.techlib.email.EmailSender;
 import codes.showme.techlib.ioc.InstanceFactory;

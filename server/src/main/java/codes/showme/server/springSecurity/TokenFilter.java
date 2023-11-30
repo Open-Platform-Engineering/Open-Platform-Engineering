@@ -14,15 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,11 +38,12 @@ public class TokenFilter extends GenericFilterBean {
         }
         Token tokenValue = token.get();
         if (!Strings.isNullOrEmpty(tokenValue.getEmail())) {
-            UserDetails userDetails = InstanceFactory.getInstance(UserDetailsService.class).loadUserByUsername(tokenValue.getEmail());
+            UserDetailsService userDetailsService = InstanceFactory.getInstance(UserDetailsService.class);
+            CustomAccountUserDetails userDetails = (CustomAccountUserDetails)userDetailsService.loadUserByUsername(tokenValue.getEmail());
             if (!userDetails.isEnabled()) {
                 throw new AccessDeniedException("account is unable");
             } else {
-                return new ApiKeyAuthentication(tokenHeader, AuthorityUtils.NO_AUTHORITIES);
+                return new ApiKeyAuthentication(tokenHeader, userDetails.getAccount(), AuthorityUtils.NO_AUTHORITIES);
             }
         } else {
             logger.warn("token is incorrect:{}", tokenHeader);

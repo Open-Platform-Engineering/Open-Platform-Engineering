@@ -5,8 +5,10 @@ resources = [
 common_deps = [
         "//core/src/main/java/codes/showme/domain/incident:incident",
         "//core/src/main/java/codes/showme/domain/team",
+        "//core/src/main/java/codes/showme/domain/account",
         "//server/src/main/java/codes/showme/server/account:account_rest",
         "//server/src/main/java/codes/showme/server/schedule:schedule",
+        "//server/src/main/java/codes/showme/server/team",
         "//server/src/main/java/codes/showme/server/springSecurity",
         "//server/src/main/java/codes/showme/server/account/exceptions",
         "//server/src/main/java/codes/showme/server/api:event2_request",
@@ -22,7 +24,8 @@ common_deps = [
         "//tech-lib-impl/src/main/java/codes/showme/techlib/hash:HashServiceImpl",
         "//event-impl/src/main/java/codes/showme/domain/account:AccountSignUpEvent",
         "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
-        "//repository-impl/src/main/java/codes/showme/domain/team:AccountRepositoryImpl",
+        "//repository-impl/src/main/java/codes/showme/domain/account:AccountRepositoryImpl",
+        "//repository-impl/src/main/java/codes/showme/domain/team:TeamRepositoryImpl",
         "//repository-impl/src/main/java/codes/showme/domain/escalation:EscalationPolicyRepositoryImpl",
         "//repository-impl/src/main/java/codes/showme/domain/incident:IncidentRepositoryImpl",
         "//repository-impl/src/main/java/codes/showme/domain/schedule:ScheduleRuleRepositoryImpl",
@@ -38,5 +41,5 @@ common_deps = [
         "@maven//:ch_qos_logback_logback_classic",
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
         "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
-        "@maven//:org_apache_shiro_shiro_core",
+        "@maven//:jakarta_persistence_jakarta_persistence_api",
 ]

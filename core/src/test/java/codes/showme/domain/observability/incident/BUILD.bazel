@@ -23,6 +23,7 @@ java_test(
     test_class = "codes.showme.domain.observability.incident.IncidentTest",
     deps = [
         "//core/src/main/java/codes/showme/domain/incident:incident",
+        "//core/src/main/java/codes/showme/domain/account:account",
         "//third_party:unittest",
         "//core/src/test/java/codes/showme/domain/observability:abstractIntegrationTest",
         "@maven//:org_mockito_mockito_core",

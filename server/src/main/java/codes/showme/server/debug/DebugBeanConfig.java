@@ -1,7 +1,7 @@
 package codes.showme.server.debug;
 
 import codes.showme.domain.account.AccountSignUpEventImpl;
-import codes.showme.domain.team.AccountSignUpEvent;
+import codes.showme.domain.account.AccountSignUpEvent;
 import codes.showme.techlib.cache.CacheService;
 import codes.showme.techlib.cache.CacheServiceMockImpl;
 import codes.showme.techlib.email.EmailSender;

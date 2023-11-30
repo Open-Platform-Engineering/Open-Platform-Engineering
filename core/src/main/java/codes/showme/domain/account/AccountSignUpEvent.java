@@ -1,4 +1,4 @@
-package codes.showme.domain.team;
+package codes.showme.domain.account;
 
 public interface AccountSignUpEvent {
     void fired(Account account);

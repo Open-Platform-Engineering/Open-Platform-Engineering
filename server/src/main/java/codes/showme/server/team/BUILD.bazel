@@ -1,17 +1,18 @@
 package(default_visibility = ["//server:__subpackages__"])
 
 java_library(
-    name = "account_rest",
+    name = "team",
     srcs = glob(["*.java"]),
     deps = [
         "//tech-lib:ioc",
         "//tech-lib:hash",
         "//tech-lib:cache",
-        "//server/src/main/java/codes/showme/server/auth",
+        "//tech-lib:pagination",
+        "//core/src/main/java/codes/showme/domain/team:team",
         "//server/src/main/java/codes/showme/server/account/authentication:authentication",
-        "//core/src/main/java/codes/showme/domain/account",
-        "//core/src/main/java/codes/showme/domain/team",
+        "//server/src/main/java/codes/showme/server/auth",
         "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
         "@maven//:javax_annotation_javax_annotation_api",
         "@maven//:com_google_guava_guava",
         "@maven//:org_slf4j_slf4j_api",

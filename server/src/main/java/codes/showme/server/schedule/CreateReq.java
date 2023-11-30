@@ -1,6 +1,7 @@
 package codes.showme.server.schedule;
 
 import codes.showme.domain.schedule.ScheduleRule;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import java.time.ZoneId;
 import java.util.TimeZone;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateReq {
     @Size(min = 2)
     @Size(max = ScheduleRule.COLUMN_NAME_LENGTH)

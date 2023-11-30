@@ -1,12 +1,18 @@
 package codes.showme.server.account;
 
+import codes.showme.domain.team.Team;
 import codes.showme.server.AbstractIntegrationTest;
 import codes.showme.server.Main;
 import codes.showme.server.api.EnqueueController;
 import codes.showme.server.schedule.CreateReq;
 import codes.showme.server.schedule.ScheduleController;
+import codes.showme.server.team.TeamController;
 import codes.showme.techlib.cache.CacheService;
+import codes.showme.techlib.ioc.InstanceFactory;
+import codes.showme.techlib.json.JsonUtil;
 import codes.showme.techlib.json.JsonUtilJacksonImpl;
+import codes.showme.techlib.pagination.Pagination;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +102,30 @@ public class AccountControllerTest extends AbstractIntegrationTest {
 
         assertNotNull(signResp.getHeader("token"));
 
+        for (int i = 0; i < 30; i++) {
+            String team = "team" + i;
+            codes.showme.server.team.CreateReq createTeamReq = new codes.showme.server.team.CreateReq();
+            createTeamReq.setName(team);
+            mvc.perform(MockMvcRequestBuilders.post(TeamController.URL_CREATE_TEAM)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header("token", signResp.getHeader("token"))
+                            .content(new JsonUtilJacksonImpl().toJsonString(createTeamReq))
+                            .accept(MediaType.APPLICATION_JSON)
+                    )
+                    .andExpect(status().isOk()).andExpect(header().exists("id"));
+        }
+
+        String teamListContent = mvc.perform(MockMvcRequestBuilders.get(TeamController.URL_LIST_TEAMS)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("token", signResp.getHeader("token"))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        JsonUtil jsonUtil = InstanceFactory.getInstance(JsonUtil.class);
+        Pagination pagination = jsonUtil.toObject(teamListContent, Pagination.class);
+        assertEquals(30, pagination.getTotalRecord());
+
         CreateReq createScheduleReq = new CreateReq();
         createScheduleReq.setName("newSchdule");
         createScheduleReq.setDescription("descrition");
@@ -107,7 +137,6 @@ public class AccountControllerTest extends AbstractIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk()).andExpect(header().string("id", "1"));
-
 
 
         mvc.perform(MockMvcRequestBuilders.post(AccountController.API_URI_SIGN_OUT)
@@ -125,6 +154,7 @@ public class AccountControllerTest extends AbstractIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isUnauthorized());
+
 
     }
 

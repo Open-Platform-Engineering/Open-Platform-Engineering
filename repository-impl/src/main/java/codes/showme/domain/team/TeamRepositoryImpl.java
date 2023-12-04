@@ -24,9 +24,18 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public Pagination<Team> listOrderByCreateTime(int pageNum, int limit) {
         Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
-        int limitInner = Math.min(Pagination.DEFAULT_PAGESIZE, limit);
-        int firstRow = (Math.max(pageNum, 1) - 1) * limitInner;
+        int limitInner = Pagination.buildDbQueryLimit(limit);
+        int firstRow =  Pagination.buildDbQueryFirstRow(pageNum, limit);
         PagedList<Team> pagedList = database.find(Team.class).setFirstRow(firstRow).setMaxRows(limitInner).findPagedList();
+        return new Pagination<>(pageNum, pagedList.getPageSize(), pagedList.getTotalCount(), pagedList.getList());
+    }
+
+    @Override
+    public Pagination<Team> search(String teamName, int pageNum, int limit) {
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+        int limitInner = Pagination.buildDbQueryLimit(limit);
+        int firstRow =  Pagination.buildDbQueryFirstRow(pageNum, limit);
+        PagedList<Team> pagedList = database.find(Team.class).where().like(Team.COLUMN_NAME, "%"+teamName+"%").setFirstRow(firstRow).setMaxRows(limitInner).findPagedList();
         return new Pagination<>(pageNum, pagedList.getPageSize(), pagedList.getTotalCount(), pagedList.getList());
     }
 }

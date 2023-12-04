@@ -26,6 +26,7 @@ public class Account {
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_PASSWORD_SALT = "password_salt";
     public static final String COLUMN_TEAMS = "teams";
+    public static final String COLUMN_DISPLAY_NAME = "display_name";
     @Id
     @GeneratedValue
     private Long id;
@@ -37,7 +38,7 @@ public class Account {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-    @Column(name = "display_name", length = 128)
+    @Column(name = COLUMN_DISPLAY_NAME, length = 128)
     private String displayName;
 
     @Column(name = COLUMN_EMAIL, length = COLUMN_EMAIL_LENGTH, unique = true)
@@ -99,6 +100,12 @@ public class Account {
         accountSignUpEvent.fired(this);
     }
 
+
+
+    public List<Account> findTeamMember(String accountName, int searchUsersLimit) {
+        AccountRepository accountRepository = InstanceFactory.getInstance(AccountRepository.class);
+        return accountRepository.findAccountByNameWithinTeams(accountName, teams, searchUsersLimit);
+    }
 
     public void joinTeam(long teamId) {
         teams.add(teamId);
@@ -197,6 +204,5 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }

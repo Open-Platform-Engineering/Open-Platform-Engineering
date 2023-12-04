@@ -1,4 +1,6 @@
 spring:
+  thymeleaf:
+      check-template-location: false
   web:
     resources:
       static-locations: classpath:/static/

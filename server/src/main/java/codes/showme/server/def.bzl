@@ -42,4 +42,5 @@ common_deps = [
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
         "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
         "@maven//:jakarta_persistence_jakarta_persistence_api",
+        "@maven//:org_slf4j_slf4j_api",
 ]

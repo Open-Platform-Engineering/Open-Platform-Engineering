@@ -1,5 +1,6 @@
 package codes.showme.server.schedule;
 
+import codes.showme.domain.schedule.ScheduleLayer;
 import codes.showme.domain.schedule.ScheduleRule;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,7 +18,6 @@ public class CreateReq {
     @Size(min = 2)
     @Size(max = ScheduleRule.COLUMN_DESCRIPTION_LENGTH)
     private String description;
-
 
     @NotNull
     @NotEmpty

@@ -1,0 +1,3 @@
+{% for team in pagination.results -%}
+<div x-data><a x-data class="button" @click="$store.main.addTeam({'name':'{{team.name}}','id':{{team.id}}})">{{ team.name }}</a></div>
+{% endfor %}

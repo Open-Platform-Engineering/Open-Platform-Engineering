@@ -63,7 +63,7 @@ lib_deps = [
 webpack_bundle(
     name = "bundle",
     chdir = package_name(),
-    srcs = [":transpile", ":config", ":public", ] ,
+    srcs = [":transpile", ":config", ":public", ],
     node_modules = ":node_modules",
 #   output_dir have to be set False so that other target can reference it then.
     output_dir = False,

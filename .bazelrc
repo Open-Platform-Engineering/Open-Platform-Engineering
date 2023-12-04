@@ -20,4 +20,4 @@ query --noexperimental_check_external_repository_files
 build --noexperimental_action_cache_store_output_metadata
 
 build --action_env=BAZEL_CXXOPTS="-std=c++14"
-#build --remote_executor=grpc://school.showme.codes:8980
+#build --remote_executor=grpc://192.168.0.106:8980

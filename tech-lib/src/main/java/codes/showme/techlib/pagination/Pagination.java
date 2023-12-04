@@ -71,6 +71,16 @@ public class Pagination<T> implements Serializable {
         return new Pagination<T>(0, 0, 0, new ArrayList<>());
     }
 
+    public static int buildDbQueryFirstRow(int pageNum, int limit) {
+        int limitInner = buildDbQueryLimit(limit);
+        int firstRow = (Math.max(pageNum, 1) - 1) * limitInner;
+        return firstRow;
+    }
+
+    public static int buildDbQueryLimit(int limit){
+        return Math.min(Pagination.DEFAULT_PAGESIZE, limit);
+    }
+
     public boolean hasNext() {
         return getPageIndex() + 1 <= totalPage;
     }

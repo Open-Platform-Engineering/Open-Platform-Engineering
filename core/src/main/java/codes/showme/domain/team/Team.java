@@ -10,6 +10,7 @@ import java.util.Date;
 @Table(name = Team.TABLE_NAME)
 public class Team {
     public static final String TABLE_NAME = "cp_teams";
+    public static final String COLUMN_NAME = "name";
 
     @Id
     @GeneratedValue
@@ -22,7 +23,7 @@ public class Team {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
-    @Column(name = "name", length = 125, unique = true)
+    @Column(name = COLUMN_NAME, length = 125, unique = true)
     private String name;
 
     @Column(name = "creator_id")
@@ -31,6 +32,11 @@ public class Team {
     public static Pagination<Team> list(int pageNum, int limit) {
         TeamRepository teamRepository = InstanceFactory.getInstance(TeamRepository.class);
         return teamRepository.listOrderByCreateTime(pageNum, limit);
+    }
+
+    public static Pagination<Team> search(String teamName, int pageNum, int limit) {
+        TeamRepository teamRepository = InstanceFactory.getInstance(TeamRepository.class);
+        return teamRepository.search(teamName, pageNum, limit);
     }
 
     public long save() {

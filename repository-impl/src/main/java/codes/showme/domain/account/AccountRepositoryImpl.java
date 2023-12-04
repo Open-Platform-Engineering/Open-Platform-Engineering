@@ -3,12 +3,14 @@ package codes.showme.domain.account;
 import codes.showme.domain.repository.EbeanConfig;
 import codes.showme.techlib.ioc.InstanceFactory;
 import io.ebean.Database;
+import io.ebean.ExpressionList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class AccountRepositoryImpl implements AccountRepository {
@@ -52,6 +54,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     public List<Account> listInTeams(Long[] id) {
         Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
         return database.find(Account.class)
-                .where().arrayContains(Account.COLUMN_TEAMS,(Object[]) id).findList();
+                .where().arrayContains(Account.COLUMN_TEAMS, (Object[]) id).findList();
+    }
+
+    @Override
+    public List<Account> findAccountByNameWithinTeams(String accountName, Set<Long> teams, int limit) {
+        Database database = InstanceFactory.getInstance(Database.class, EbeanConfig.BEAN_NAME_READ_BEONLY);
+        ExpressionList<Account> expressionList = database.find(Account.class).where();
+        expressionList.setMaxRows(Math.max(1, limit));
+        return expressionList
+                .like(Account.COLUMN_DISPLAY_NAME, "%" + accountName + "%")
+                .arrayContains(Account.COLUMN_TEAMS, teams.toArray(new Long[teams.size()])).findList();
     }
 }

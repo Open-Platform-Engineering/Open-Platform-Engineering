@@ -1,0 +1,49 @@
+#
+#java_library(
+#    name = "lib",
+#    srcs = glob(["*.java"]),
+#    testonly = True,
+#    deps = [
+#        "//core/src/main/java/codes/showme/domain/team",
+#        "//server/src/main/java/codes/showme/server:lib",
+#        "//repository-impl/src/main/java/codes/showme/domain/repository:ebean_config",
+#        "//server/src/main/java/codes/showme/server/api:event2_request",
+#        "//server/src/test/java/codes/showme/server:abstractIntegrationTest",
+#        "//server/src/main/java/codes/showme/server/account:account_rest",
+#        "//server/src/main/java/codes/showme/server/schedule:schedule",
+#        "//server/src/main/java/codes/showme/server/team",
+#        "//tech-lib-impl/src/main/java/codes/showme/techlib/json:json",
+#        "//tech-lib-impl/src/main/java/codes/showme/techlib/cache:CacheServiceMockImpl",
+#        "//tech-lib:validation",
+#        "//tech-lib:cache",
+#        "//tech-lib:pagination",
+#        "//tech-lib:json",
+#        "//tech-lib:ioc",
+#        "//third_party:test",
+#        "//third_party:unittest",
+#        "@maven//:org_springframework_spring_beans",
+#        "@maven//:javax_annotation_javax_annotation_api",
+#        "@maven//:org_springframework_spring_web",
+#        "@maven//:org_springframework_boot_spring_boot_test_autoconfigure",
+#        "@maven//:org_springframework_spring_test",
+#        "@maven//:org_springframework_boot_spring_boot_test",
+#        "@maven//:org_springframework_boot_spring_boot_starter_test",
+#        "@maven//:org_springframework_spring_context"
+#    ],
+#)
+#
+#java_test(
+#    name = "ScheduleControllerIntegrationTest",
+#    size = "medium",
+#    test_class = "codes.showme.server.schedule.ScheduleControllerIntegrationTest",
+#    data = ["@maven//:io_ebean_ebean_agent"],
+#    jvm_flags = ["-javaagent:$(location @maven//:io_ebean_ebean_agent)"],
+#    tags = ["docker"],
+#    resources = [
+#        "//server/src/main/resources:server-resources",
+#    ],
+#    runtime_deps = [
+#        ":lib",
+#    ],
+#)
+#

@@ -3,19 +3,23 @@ load("@rules_python//python:defs.bzl", "py_binary","py_library")
 
 package(default_visibility = ["//visibility:public"])
 
+py_library(
+    name = "zoneid",
+    srcs = ["zoneid.py"],
+    deps = [],
+)
+
 
 py_binary(
   name = "app",
-  srcs = ["app.py"],
+  srcs = glob(["app.py"]),
   data = glob([
 #      "static/src/*.js",
       "templates/**/*.html"]
     ),
   deps = [
+      ":zoneid",
       requirement("Flask"),
-#      requirement("Flask_Assets"),
-#      requirement("webassets"),
-#      requirement("pytailwindcss"),
       requirement("itsdangerous"),
       requirement("requests"),
       requirement("urllib3"),

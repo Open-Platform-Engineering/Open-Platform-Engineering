@@ -2,6 +2,7 @@ package codes.showme.domain.account;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountRepository {
     long save(Account account);
@@ -13,4 +14,7 @@ public interface AccountRepository {
     Optional<Account> findByEmail(String email);
 
     List<Account> listInTeams(Long[] id);
+
+    List<Account> findAccountByNameWithinTeams(String accountName, Set<Long> teams, int searchUsersLimit);
+
 }

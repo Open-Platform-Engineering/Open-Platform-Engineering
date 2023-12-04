@@ -11,6 +11,7 @@ public class TeamController {
 
     public static final String URL_CREATE_TEAM = "/v1/team";
     public static final String URL_LIST_TEAMS = "/v1/teams";
+    public static final String URL_SEARCH_TEAMS = "/v1/teams/search";
 
     @PostMapping(URL_CREATE_TEAM)
     public ResponseEntity<?> createTeam(@RequestBody CreateReq createReq) {
@@ -20,7 +21,13 @@ public class TeamController {
     }
 
     @GetMapping(URL_LIST_TEAMS)
-    public ResponseEntity<?> list(@RequestParam(name = "page", defaultValue = "1") int pageNum, @RequestParam(name = "limit", defaultValue = "20") int limit) {
+    public ResponseEntity<Pagination<Team>> list(@RequestParam(name = "page", defaultValue = "1") int pageNum, @RequestParam(name = "limit", defaultValue = "20") int limit) {
         return ResponseEntity.ok().body(Team.list(pageNum, limit));
     }
+
+    @GetMapping(URL_SEARCH_TEAMS)
+    public ResponseEntity<Pagination<Team>> search(@RequestParam(name = "q") String q, @RequestParam(name = "page", defaultValue = "1") int pageNum, @RequestParam(name = "limit", defaultValue = "20") int limit) {
+        return ResponseEntity.ok().body(Team.search(q, pageNum, limit));
+    }
+
 }

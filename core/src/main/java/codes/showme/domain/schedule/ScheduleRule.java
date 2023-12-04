@@ -3,6 +3,7 @@ package codes.showme.domain.schedule;
 
 import codes.showme.domain.team.Reassignable;
 import codes.showme.techlib.ioc.InstanceFactory;
+import codes.showme.techlib.pagination.Pagination;
 import io.ebean.annotation.DbJson;
 import jakarta.persistence.*;
 
@@ -45,6 +46,11 @@ public class ScheduleRule implements Reassignable {
     public static Optional<ScheduleRule> findById(long scheduleId) {
         ScheduleRuleRepository scheduleRuleRepository = InstanceFactory.getInstance(ScheduleRuleRepository.class);
         return scheduleRuleRepository.findById(scheduleId);
+    }
+
+    public static Pagination<ScheduleRule> list(int pageNum, int limit) {
+        ScheduleRuleRepository scheduleRuleRepository = InstanceFactory.getInstance(ScheduleRuleRepository.class);
+        return scheduleRuleRepository.list(pageNum, limit);
     }
 
     public ScheduleRule addLayer(ScheduleLayer scheduleLayer) {
